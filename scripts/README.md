@@ -1,1 +1,0 @@
-The files in this folder are some python scripts that help us download the data from Spotify and Rovi using Web API.
