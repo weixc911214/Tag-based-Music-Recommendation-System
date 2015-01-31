@@ -1,5 +1,6 @@
 # DataBase Project 1 Proposal
 
+
 ### 1. What you need to do for Part 1
 
 **Find a team-mate.** 
@@ -40,7 +41,17 @@ You should submit all these materials electronically by **Monday Feb 9, 5pm.**
 
 #### 2.1 High-level Description Of The Application
 
+For project 1, we plan to build a music recommender system based on the data on [Spotify](https://developer.spotify.com/web-api/) and [Rovi](http://developer.rovicorp.com/docs). To achieve this goal, we will include entities like users, artists, albums, tracks, playlists, and metadata like moods or genres. The relationship sets will also be built accordingly. 
+
+1. Once the user has signed up and login, we will show some hot artists or tracks for them to choose for the cold start part, thus we could build the user profile and store them. 
+2. Based on the user records, we could recommend tracks, artists, playlists to the user once logged in.
+3. we offer different playlists for the user according to moods or environments  as they wish.
+
 #### 2.2 Entities Sets, Relationship Sets With Attributes And Constraints
+
+The demo of the ER Map:
+
+![enter image description here](ER.png)
 
 #### 2.3 The Resources of data
 
@@ -94,3 +105,5 @@ Here is a sample of the JSON-format data:
 }
 ```
 #### 2.4 Contingency Plan
+
+
