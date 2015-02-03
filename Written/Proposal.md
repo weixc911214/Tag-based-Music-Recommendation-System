@@ -1,9 +1,6 @@
-# DataBase Project 1 Proposal
+# DataBase Project: Music Recommender Part1 Proposal
 
- ### 2. Proposal Demo
-
-
-#### 2.1 High-level Description Of The Application
+#### High-level Description Of The Application
 
 For project 1, we plan to build a music recommender database based on the data on [Spotify](https://developer.spotify.com/web-api/) and [Rovi](http://developer.rovicorp.com/docs) API. To achieve this goal, we will include entities like users, artists, albums, tracks, playlists, and metadata like moods or genres. The relationship sets will also be built accordingly. 
 
