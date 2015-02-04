@@ -1,0 +1,26 @@
+/* app.css */
+body, html {
+    height: 100%;
+    width: 100%;
+}
+
+
+
+.splash-page {
+    margin-top: 10%;
+}
+
+.splash-page .panel {
+    text-align: center;
+}
+
+.splash-page .panel {
+    text-align: center;
+    background-color: rgba(242, 242, 242, 0.9);
+}
+
+
+body {
+    padding-top: 20px;
+    background: black url(/static/img/background.jpg) no-repeat fixed center center;
+}

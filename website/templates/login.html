@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+<div class="row splash-page">
+  <div class="medium-4 medium-centered columns">
+    <div class="panel">
+      <h1>Log In</h1>
+        <form action="/login" method="post">
+            <div class="row">
+                <div class="columns">
+                    <input type="text" placeholder="Username" name="username" required/>
+                </div>
+                <div class="columns">
+                    <input type="text" placeholder="Password" name="password" required/>
+                </div>
+                <div class="columns">
+                    <button class="postfix" type="submit">Log In</button>
+                </div>
+            </div>
+        </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
