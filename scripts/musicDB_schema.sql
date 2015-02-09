@@ -11,6 +11,7 @@ CREATE TABLE albums (
     published_date date ,
     image_url varchar(255) ,
     artist_id int    NOT NULL ,
+    description_type varchar(45) NOT NULL,
     CONSTRAINT album_pk PRIMARY KEY (album_id)
 );
 
@@ -34,6 +35,7 @@ CREATE TABLE companies (
 CREATE TABLE playlists (
     list_id int ,
     user_id int    NOT NULL ,
+    description_type varchar(45) NOT NULL,
     list_name varchar(255)    NOT NULL ,
     CONSTRAINT playlists_pk PRIMARY KEY (list_id)
 );
@@ -59,6 +61,7 @@ CREATE TABLE songs (
     artist_id int    NOT NULL ,
     album_id int    NOT NULL ,
     resource_url varchar(255) ,
+    description_type varchar(45) NOT NULL,
     name varchar(255)    NOT NULL ,
     CONSTRAINT songs_pk PRIMARY KEY (track_id)
 );
@@ -84,7 +87,7 @@ CREATE TABLE users (
 CREATE TABLE descriptions (
     tag_id int ,
     description_id int  ,
-    description_type int ,
+    description_type varchar(45) ,
     CONSTRAINT descriptions_pk PRIMARY KEY (tag_id, description_type, description_id)
 );
 
@@ -111,6 +114,9 @@ ALTER TABLE descriptions ADD CONSTRAINT descriptions FOREIGN KEY descriptions (t
     REFERENCES tags (tag_id);
 
 
+
+
+
 -- Reference:  album_publications (table: album)
 
 
@@ -123,6 +129,11 @@ ALTER TABLE albums ADD CONSTRAINT album_publications FOREIGN KEY album_publicati
 
 ALTER TABLE albums ADD CONSTRAINT album_song FOREIGN KEY album_song (album_id)
     REFERENCES songs (tag_id)
+    ON DELETE CASCADE
+    ON UPDATE SET DEFAULT;
+
+ALTER TABLE albums ADD CONSTRAINT descriptions_albums FOREIGN KEY descriptions_albums (album_id, description_type)
+    REFERENCES descriptions (description_id, description_type)
     ON DELETE CASCADE
     ON UPDATE SET DEFAULT;
 -- Reference:  album_tags (table: tags)
@@ -138,10 +149,10 @@ ALTER TABLE artists ADD CONSTRAINT artists_album FOREIGN KEY artists_album (arti
 -- Reference:  playlists_songs (table: playlists)
 
 
-ALTER TABLE playlists ADD CONSTRAINT playlists_songs FOREIGN KEY playlists_songs (track_id)
-    REFERENCES songs (track_id)
-    ON DELETE CASCADE
-    ON UPDATE SET NULL;
+-- ALTER TABLE playlists ADD CONSTRAINT playlists_songs FOREIGN KEY playlists_songs (track_id)
+--     REFERENCES songs (track_id)
+--     ON DELETE CASCADE
+--     ON UPDATE SET NULL;
 -- Reference:  playlists_tags (table: tags)
 
 
@@ -181,6 +192,12 @@ ALTER TABLE songs ADD CONSTRAINT songs_prefered_songs FOREIGN KEY songs_prefered
     REFERENCES prefered_songs (track_id)
     ON DELETE CASCADE
     ON UPDATE SET DEFAULT;
+
+ALTER TABLE songs ADD CONSTRAINT descriptions_songs FOREIGN KEY descriptions_songs (track_id, description_type)
+    REFERENCES descriptions (description_id, description_type)
+    ON DELETE CASCADE
+    ON UPDATE SET DEFAULT;
+
 -- Reference:  users_playlists (table: playlists)
 
 
@@ -189,7 +206,10 @@ ALTER TABLE playlists ADD CONSTRAINT users_playlists FOREIGN KEY users_playlists
     ON DELETE CASCADE
     ON UPDATE SET DEFAULT;
 
-
+ALTER TABLE playlists ADD CONSTRAINT descriptions_playlists FOREIGN KEY descriptions_playlists (list_id, description_type)
+    REFERENCES descriptions (description_id, description_type)
+    ON DELETE CASCADE
+    ON UPDATE SET DEFAULT;
 
 -- End of file.
 
