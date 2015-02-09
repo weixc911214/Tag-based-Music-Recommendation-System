@@ -7,12 +7,10 @@
 -- Table album
 CREATE TABLE albums (
     album_id int    NOT NULL ,
-    album_image varchar(255)    NOT NULL ,
     album_name varchar(255)    NOT NULL ,
     published_date date    NOT NULL ,
     image_url varchar(255)    NOT NULL ,
     artist_id int    NOT NULL ,
-    tag_id int    NOT NULL ,
     CONSTRAINT album_pk PRIMARY KEY (album_id)
 );
 
@@ -35,11 +33,9 @@ CREATE TABLE companies (
 -- Table playlists
 CREATE TABLE playlists (
     list_id int    NOT NULL ,
-    track_id int    NOT NULL ,
     user_id int    NOT NULL ,
-    tag_id int    NOT NULL ,
     list_name varchar(255)    NOT NULL ,
-    CONSTRAINT playlists_pk PRIMARY KEY (list_id,track_id,user_id,tag_id)
+    CONSTRAINT playlists_pk PRIMARY KEY (list_id,user_id,tag_id)
 );
 
 -- Table prefered_songs
@@ -62,7 +58,6 @@ CREATE TABLE songs (
     track_id int    NOT NULL ,
     artist_id int    NOT NULL ,
     album_id int    NOT NULL ,
-    tag_id int    NOT NULL ,
     resource_url varchar(255)    NOT NULL ,
     name varchar(255)    NOT NULL ,
     CONSTRAINT songs_pk PRIMARY KEY (track_id)
@@ -94,9 +89,22 @@ CREATE TABLE descriptions (
 );
 
 
+-- Table descriptions
+CREATE TABLE listed_songs (
+    track_id int    NOT NULL ,
+    list_id int    NOT NULL ,
+    CONSTRAINT descriptions_pk PRIMARY KEY (track_id, list_id)
+);
 
 -- foreign keys
 
+-- Reference:  listed_songs (table: playlists)
+ALTER TABLE listed_songs ADD CONSTRAINT lists_FK FOREIGN KEY listed_songs (list_id)
+    REFERENCES playlists (list_id);
+
+-- Reference:  listed_songs (table: songs)
+ALTER TABLE listed_songs ADD CONSTRAINT songs_FK FOREIGN KEY listed_songs (track_id)
+    REFERENCES songs (track_id);
 
 -- Reference:  descriptions (table: tags)
 ALTER TABLE descriptions ADD CONSTRAINT descriptions FOREIGN KEY descriptions (tag_id)
