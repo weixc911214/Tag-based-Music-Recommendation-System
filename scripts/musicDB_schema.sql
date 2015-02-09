@@ -6,66 +6,66 @@
 
 -- Table album
 CREATE TABLE albums (
-    album_id int    NOT NULL ,
+    album_id int ,
     album_name varchar(255)    NOT NULL ,
-    published_date date    NOT NULL ,
-    image_url varchar(255)    NOT NULL ,
+    published_date date ,
+    image_url varchar(255) ,
     artist_id int    NOT NULL ,
     CONSTRAINT album_pk PRIMARY KEY (album_id)
 );
 
 -- Table artists
 CREATE TABLE artists (
-    artist_id int    NOT NULL ,
-    artist_name varchar(255)    NOT NULL ,
-    artist_image varchar(255)    NOT NULL ,
-    artist_style varchar(255)    NOT NULL ,
+    artist_id int ,
+    artist_name varchar(255)  NOT NULL ,
+    artist_image varchar(255) ,
+    artist_style varchar(255) ,
     CONSTRAINT artists_pk PRIMARY KEY (artist_id)
 );
 
 -- Table companies
 CREATE TABLE companies (
-    company_id int    NOT NULL ,
+    company_id int ,
     company_name varchar(255)    NOT NULL ,
     CONSTRAINT companies_pk PRIMARY KEY (company_id)
 );
 
 -- Table playlists
 CREATE TABLE playlists (
-    list_id int    NOT NULL ,
+    list_id int ,
     user_id int    NOT NULL ,
     list_name varchar(255)    NOT NULL ,
-    CONSTRAINT playlists_pk PRIMARY KEY (list_id,user_id,tag_id)
+    CONSTRAINT playlists_pk PRIMARY KEY (list_id)
 );
 
 -- Table prefered_songs
 CREATE TABLE prefered_songs (
-    user_id int    NOT NULL ,
-    track_id int    NOT NULL ,
+    user_id int  ,
+    track_id int ,
     CONSTRAINT prefered_songs_pk PRIMARY KEY (user_id,track_id)
 );
 
 -- Table publications
 CREATE TABLE publications (
-    album_id int    NOT NULL ,
-    artist_id int    NOT NULL ,
-    company_id int    NOT NULL ,
+    album_id int ,
+    artist_id int ,
+    company_id int ,
     CONSTRAINT publications_pk PRIMARY KEY (album_id,artist_id,company_id)
 );
 
 -- Table songs
 CREATE TABLE songs (
-    track_id int    NOT NULL ,
+    track_id int ,
     artist_id int    NOT NULL ,
     album_id int    NOT NULL ,
-    resource_url varchar(255)    NOT NULL ,
+    resource_url varchar(255) ,
     name varchar(255)    NOT NULL ,
     CONSTRAINT songs_pk PRIMARY KEY (track_id)
 );
 
 -- Table tags
 CREATE TABLE tags (
-    tag_id int    NOT NULL ,
+    tag_id int ,
     tag_type varchar(255)    NOT NULL ,
     tag_name varchar(255)    NOT NULL ,
     CONSTRAINT tags_pk PRIMARY KEY (tag_id)
@@ -73,7 +73,7 @@ CREATE TABLE tags (
 
 -- Table users
 CREATE TABLE users (
-    user_id int    NOT NULL ,
+    user_id int ,
     user_name varchar(255)    NOT NULL ,
     user_pwd varchar(255)    NOT NULL ,
     profile varchar(255)    NOT NULL ,
@@ -82,17 +82,17 @@ CREATE TABLE users (
 
 -- Table descriptions
 CREATE TABLE descriptions (
-    tag_id int    NOT NULL ,
-    description_id int    NOT NULL ,
-    description_type int    NOT NULL ,
+    tag_id int ,
+    description_id int  ,
+    description_type int ,
     CONSTRAINT descriptions_pk PRIMARY KEY (tag_id, description_type, description_id)
 );
 
 
 -- Table descriptions
 CREATE TABLE listed_songs (
-    track_id int    NOT NULL ,
-    list_id int    NOT NULL ,
+    track_id int ,
+    list_id int ,
     CONSTRAINT descriptions_pk PRIMARY KEY (track_id, list_id)
 );
 
