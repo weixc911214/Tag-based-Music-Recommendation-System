@@ -3,6 +3,7 @@
 -- Created on: Feb 8th 2015
 
 -- tables
+
 -- Table album
 CREATE TABLE albums (
     album_id int    NOT NULL ,
@@ -84,11 +85,24 @@ CREATE TABLE users (
     CONSTRAINT users_pk PRIMARY KEY (user_id)
 );
 
-
+-- Table descriptions
+CREATE TABLE descriptions (
+    tag_id int    NOT NULL ,
+    description_id int    NOT NULL ,
+    description_type int    NOT NULL ,
+    CONSTRAINT descriptions_pk PRIMARY KEY (tag_id, description_type, description_id)
+);
 
 
 
 -- foreign keys
+
+
+-- Reference:  descriptions (table: tags)
+ALTER TABLE descriptions ADD CONSTRAINT descriptions FOREIGN KEY descriptions (tag_id)
+    REFERENCES tags (tag_id);
+
+
 -- Reference:  album_publications (table: album)
 
 
@@ -106,8 +120,8 @@ ALTER TABLE albums ADD CONSTRAINT album_song FOREIGN KEY album_song (album_id)
 -- Reference:  album_tags (table: tags)
 
 
-ALTER TABLE tags ADD CONSTRAINT album_tags FOREIGN KEY album_tags (tag_id)
-    REFERENCES album (tag_id);
+-- ALTER TABLE tags ADD CONSTRAINT album_tags FOREIGN KEY album_tags (tag_id)
+--     REFERENCES album (tag_id);
 -- Reference:  artists_album (table: artists)
 
 
@@ -123,8 +137,8 @@ ALTER TABLE playlists ADD CONSTRAINT playlists_songs FOREIGN KEY playlists_songs
 -- Reference:  playlists_tags (table: tags)
 
 
-ALTER TABLE tags ADD CONSTRAINT playlists_tags FOREIGN KEY playlists_tags (tag_id)
-    REFERENCES playlists (tag_id);
+-- ALTER TABLE tags ADD CONSTRAINT playlists_tags FOREIGN KEY playlists_tags (tag_id)
+--     REFERENCES playlists (tag_id);
 -- Reference:  prefered_songs_users (table: users)
 
 
@@ -145,8 +159,8 @@ ALTER TABLE companies ADD CONSTRAINT publications_companies FOREIGN KEY publicat
 -- Reference:  song_tags (table: tags)
 
 
-ALTER TABLE tags ADD CONSTRAINT song_tags FOREIGN KEY song_tags (tag_id)
-    REFERENCES songs (tag_id);
+-- ALTER TABLE tags ADD CONSTRAINT song_tags FOREIGN KEY song_tags (tag_id)
+--     REFERENCES songs (tag_id);
 -- Reference:  songs_artists (table: artists)
 
 
