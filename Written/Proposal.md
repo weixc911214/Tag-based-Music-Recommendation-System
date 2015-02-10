@@ -1,5 +1,11 @@
 # DataBase Project: Music Recommender Part1 Proposal
 
+### Authors
+
+**Xiaochen Wei UNI:xw2353**
+
+**Xuejun Wang UNI:xw2355**
+
 ### 1. High-level Description Of The Application
 
 For project 1, we plan to build a music recommender database based on the data on [Spotify](https://developer.spotify.com/web-api/) and [Rovi](http://developer.rovicorp.com/docs) API. To achieve this goal, we will include entities like users, artists, albums, tracks, playlists, and metadata like moods or genres. The relationship sets will also be built accordingly. 
@@ -42,7 +48,7 @@ We plan the include the entities sets and relationship sets as following:
 5. **ProducedBy**: Relationship between (Artists, Albums) and (Artists, Songs).
 6. **Owns**: Relationship between Company and (Albums, Artists).
 
-![enter image description here](ER_v2.png)
+![enter image description here](ER.png)
 
 ### 3. The Resources of data
 
