@@ -1,10 +1,11 @@
 from rq import Queue
 from redis import Redis
-from Count import count_words_at_url
+#from Count import count_words_at_url
 import time
 import spotipy
 from Queue import Queue
 import json
+
 spotify = spotipy.Spotify()
 
 '''

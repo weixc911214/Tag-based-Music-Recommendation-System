@@ -101,17 +101,17 @@ CREATE TABLE listed_songs (
 
 -- foreign keys
 
--- Reference:  listed_songs (table: playlists)
-ALTER TABLE listed_songs ADD CONSTRAINT lists_FK FOREIGN KEY listed_songs (list_id)
-    REFERENCES playlists (list_id);
+-- -- Reference:  listed_songs (table: playlists)
+-- ALTER TABLE listed_songs ADD CONSTRAINT lists_FK FOREIGN KEY listed_songs (list_id)
+--     REFERENCES playlists (list_id);
 
--- Reference:  listed_songs (table: songs)
-ALTER TABLE listed_songs ADD CONSTRAINT songs_FK FOREIGN KEY listed_songs (track_id)
-    REFERENCES songs (track_id);
+-- -- Reference:  listed_songs (table: songs)
+-- ALTER TABLE listed_songs ADD CONSTRAINT songs_FK FOREIGN KEY listed_songs (track_id)
+--     REFERENCES songs (track_id);
 
 -- Reference:  descriptions (table: tags)
-ALTER TABLE descriptions ADD CONSTRAINT descriptions FOREIGN KEY descriptions (tag_id)
-    REFERENCES tags (tag_id);
+-- ALTER TABLE descriptions ADD CONSTRAINT descriptions FOREIGN KEY descriptions (tag_id)
+--     REFERENCES tags (tag_id);
 
 
 
@@ -120,17 +120,17 @@ ALTER TABLE descriptions ADD CONSTRAINT descriptions FOREIGN KEY descriptions (t
 -- Reference:  album_publications (table: album)
 
 
-ALTER TABLE albums ADD CONSTRAINT album_publications FOREIGN KEY album_publications (album_id)
-    REFERENCES publications (album_id)
-    ON DELETE CASCADE
-    ON UPDATE SET DEFAULT;
+-- ALTER TABLE publications ADD CONSTRAINT album_publications FOREIGN KEY album_publications (album_id)
+--     REFERENCES albums (album_id)
+--     ON DELETE CASCADE
+--     ON UPDATE SET DEFAULT;
 -- Reference:  album_song (table: album)
 
 
-ALTER TABLE albums ADD CONSTRAINT album_song FOREIGN KEY album_song (album_id)
-    REFERENCES songs (tag_id)
-    ON DELETE CASCADE
-    ON UPDATE SET DEFAULT;
+-- ALTER TABLE albums ADD CONSTRAINT album_song FOREIGN KEY album_song (album_id)
+--     REFERENCES songs (tag_id)
+--     ON DELETE CASCADE
+--     ON UPDATE SET DEFAULT;
 
 ALTER TABLE albums ADD CONSTRAINT descriptions_albums FOREIGN KEY descriptions_albums (album_id, description_type)
     REFERENCES descriptions (description_id, description_type)
@@ -144,8 +144,8 @@ ALTER TABLE albums ADD CONSTRAINT descriptions_albums FOREIGN KEY descriptions_a
 -- Reference:  artists_album (table: artists)
 
 
-ALTER TABLE artists ADD CONSTRAINT artists_album FOREIGN KEY artists_album (artist_id)
-    REFERENCES album (artist_id);
+-- ALTER TABLE artists ADD CONSTRAINT artists_album FOREIGN KEY artists_album (artist_id)
+--     REFERENCES album (artist_id);
 -- Reference:  playlists_songs (table: playlists)
 
 
@@ -161,21 +161,21 @@ ALTER TABLE artists ADD CONSTRAINT artists_album FOREIGN KEY artists_album (arti
 -- Reference:  prefered_songs_users (table: users)
 
 
-ALTER TABLE users ADD CONSTRAINT prefered_songs_users FOREIGN KEY prefered_songs_users (user_id)
-    REFERENCES prefered_songs (user_id)
-    ON DELETE CASCADE
-    ON UPDATE SET DEFAULT;
+-- ALTER TABLE users ADD CONSTRAINT prefered_songs_users FOREIGN KEY prefered_songs_users (user_id)
+--     REFERENCES prefered_songs (user_id)
+--     ON DELETE CASCADE
+--     ON UPDATE SET DEFAULT;
 -- Reference:  publications_artists (table: publications)
 
 
-ALTER TABLE publications ADD CONSTRAINT publications_artists FOREIGN KEY publications_artists (artist_id)
-    REFERENCES artists (artist_id);
--- Reference:  publications_companies (table: companies)
+-- ALTER TABLE publications ADD CONSTRAINT publications_artists FOREIGN KEY publications_artists (artist_id)
+--     REFERENCES artists (artist_id);
+-- -- Reference:  publications_companies (table: companies)
 
 
-ALTER TABLE companies ADD CONSTRAINT publications_companies FOREIGN KEY publications_companies (company_id)
-    REFERENCES publications (company_id);
--- Reference:  song_tags (table: tags)
+-- ALTER TABLE companies ADD CONSTRAINT publications_companies FOREIGN KEY publications_companies (company_id)
+--     REFERENCES publications (company_id);
+-- -- Reference:  song_tags (table: tags)
 
 
 -- ALTER TABLE tags ADD CONSTRAINT song_tags FOREIGN KEY song_tags (tag_id)
@@ -183,15 +183,15 @@ ALTER TABLE companies ADD CONSTRAINT publications_companies FOREIGN KEY publicat
 -- Reference:  songs_artists (table: artists)
 
 
-ALTER TABLE artists ADD CONSTRAINT songs_artists FOREIGN KEY songs_artists (artist_id)
-    REFERENCES songs (artist_id);
+-- ALTER TABLE artists ADD CONSTRAINT songs_artists FOREIGN KEY songs_artists (artist_id)
+--     REFERENCES songs (artist_id);
 -- Reference:  songs_prefered_songs (table: songs)
 
 
-ALTER TABLE songs ADD CONSTRAINT songs_prefered_songs FOREIGN KEY songs_prefered_songs (track_id)
-    REFERENCES prefered_songs (track_id)
-    ON DELETE CASCADE
-    ON UPDATE SET DEFAULT;
+-- ALTER TABLE songs ADD CONSTRAINT songs_prefered_songs FOREIGN KEY songs_prefered_songs (track_id)
+--     REFERENCES prefered_songs (track_id)
+--     ON DELETE CASCADE
+--     ON UPDATE SET DEFAULT;
 
 ALTER TABLE songs ADD CONSTRAINT descriptions_songs FOREIGN KEY descriptions_songs (track_id, description_type)
     REFERENCES descriptions (description_id, description_type)
@@ -201,10 +201,10 @@ ALTER TABLE songs ADD CONSTRAINT descriptions_songs FOREIGN KEY descriptions_son
 -- Reference:  users_playlists (table: playlists)
 
 
-ALTER TABLE playlists ADD CONSTRAINT users_playlists FOREIGN KEY users_playlists (user_id)
-    REFERENCES users (user_id)
-    ON DELETE CASCADE
-    ON UPDATE SET DEFAULT;
+-- ALTER TABLE playlists ADD CONSTRAINT users_playlists FOREIGN KEY users_playlists (user_id)
+--     REFERENCES users (user_id)
+--     ON DELETE CASCADE
+--     ON UPDATE SET DEFAULT;
 
 ALTER TABLE playlists ADD CONSTRAINT descriptions_playlists FOREIGN KEY descriptions_playlists (list_id, description_type)
     REFERENCES descriptions (description_id, description_type)
@@ -212,4 +212,20 @@ ALTER TABLE playlists ADD CONSTRAINT descriptions_playlists FOREIGN KEY descript
     ON UPDATE SET DEFAULT;
 
 -- End of file.
+
+--
+
+ALTER TABLE `cs4111`.`listed_songs` 
+ADD INDEX `lists_FK_idx` (`list_id` ASC);
+ALTER TABLE `cs4111`.`listed_songs` 
+ADD CONSTRAINT `lists_FK`
+  FOREIGN KEY (`list_id`)
+  REFERENCES `cs4111`.`playlists` (`list_id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION,
+ADD CONSTRAINT `songs_FK`
+  FOREIGN KEY (`track_id`)
+  REFERENCES `cs4111`.`songs` (`track_id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
 

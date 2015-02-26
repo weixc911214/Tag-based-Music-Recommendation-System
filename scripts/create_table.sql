@@ -100,3 +100,20 @@ CREATE TABLE `users` (
   `profile` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1
+
+CREATE TABLE `playlists` (
+  `list_id` int(11) NOT NULL DEFAULT '0',
+  `user_id` int(11) NOT NULL,
+  `description_type` varchar(45) DEFAULT NULL,
+  `list_name` varchar(255) NOT NULL,
+  PRIMARY KEY (`list_id`),
+  KEY `user_list_idx` (`user_id`),
+  CONSTRAINT `user_list` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+-- Make sure that each user has at least one playlist
+CREATE ASSERTION BusySailors CHECK (
+  NOT EXISTS (
+  SELECT user_id FROM user WHERE user_id NOT IN (
+  SELECT user_id FROM playlists) ))
