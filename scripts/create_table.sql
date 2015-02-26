@@ -113,7 +113,7 @@ CREATE TABLE `playlists` (
 
 
 -- Make sure that each user has at least one playlist
-CREATE ASSERTION BusySailors CHECK (
+CREATE ASSERTION UserPlaylist CHECK (
   NOT EXISTS (
   SELECT user_id FROM user WHERE user_id NOT IN (
   SELECT user_id FROM playlists) ))
