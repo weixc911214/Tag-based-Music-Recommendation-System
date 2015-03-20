@@ -1,107 +1,109 @@
+# -*- coding: utf-8 -*-
 from libfm import LibFM
 from libfm import LibFMError
 import json
-# create a handler instance with API key and application secret
-lib_fm = LibFM('9b763a9a320e5719c1c9851fc7d71850', 'a10aa8e3f09af99b71d728953c6bd755')
-
-def get_artist_info(artist):
-
-    info = lib_fm.read('artist.getInfo', artist = artist)
-    bio = info["artist"]["bio"]
-    name = info["artist"]["name"]
-    tags = info["artist"]["tags"]
-    image = info["artist"]["image"]
-    similar = info["artist"]["similar"]
-
-    taglist = list()
-    for tag in tags["tag"]:
-        taglist.append(tag["name"])
-    #print taglist
-
-    print json.dumps(taglist)
-
-    artist_list = list()
-    for artist in similar["artist"]:
-        artist_list.append(artist["name"])
-
-    print json.dumps(artist_list)
-
-    print image[0]["#text"]
-
-    return artist
-
-def get_songs_by_artist(artist):
-    info = lib_fm.read('artist.getTopTracks', artist = artist)
-    for track in info["toptracks"]["track"]:
-        name = track["name"]
-        artist = track["artist"]
-        url = track["url"]
-        
-        try:
-            image = track["image"]
-        except:
-            image = ""
-
-        print name
-        if len(image) > 0:
-            print image[0]["#text"]
-        print url
-        print artist
-
-        print "----"
+import redis
 
 
-def get_albums_by_artist(artist):
-    info = lib_fm.read('artist.getTopAlbums', artist = artist)
-    for album in info["topalbums"]["album"]:
-        name = album["name"]
-        artist = album["artist"]
-        url = album["url"]
-        image = album["image"]
-        
-        print "artist: " + str(artist["name"])
-        print "album_name: " + str(name)
-        print "url: " + str(url)
-        print "image: " + str(image[-1]["#text"])
-        print "----"
+class LastFM():
 
-
-def get_songs_by_album(artist, album):
-    info = lib_fm.read('album.getInfo', artist = artist, album = album)
-    for track in info["album"]["tracks"]["track"]:
-        #print track
-        name = track["name"]
-        artist = track["artist"]
-        url = track["url"]
-        #print track["@attr"]
-        #
-        print name
-        print artist["name"]
-        print url
-
-        print "---"
-
-
-def get_tags_by_artist(artist):
-    info = lib_fm.read('artist.getTopTags', artist = artist)
-    for tag in info["toptags"]["tag"]:
-        print tag["name"]
-
-try:
-    lib_fm.create_mobile_session('weixc1234', 'wxc16888')
-
-    # simple read
     '''
-    get the info of artist
+    初始化LastFM,连接redis server
     '''
+    def __init__(self, redis):
+        self.redis = redis
 
-    #info = lib_fm.read('artist.getInfo', artist='Usher')
-    #get_songs_by_artist("Usher")
-    get_tags_by_artist("Taylor Swift")
+        # create a handler instance with API key and application secret
+        self.lib_fm = LibFM('9b763a9a320e5719c1c9851fc7d71850', 'a10aa8e3f09af99b71d728953c6bd755')
+        self.lib_fm.create_mobile_session('weixc1234', 'wxc16888')
+
+    '''
+    通过一个artist的名字得到与其相似的artist
+
+    INPUT: artist  例如： 'Usher'
+    ===
+    OUTPUT: artist_list 形式为数组，每个元素为一个artist，包含属性url, image, name
+    '''
+    def get_similar_artists_by_artist(self, artist):
+        info = self.lib_fm.read('artist.getInfo', artist = artist)
+        similar = info["artist"]["similar"]["artist"]
+
+        return similar
+
+    '''
+    通过一个artist的名字得到其最热门的歌曲
+
+    INPUT: artist  例如： 'Usher'
+    '''
+    # TODO(wei) Change the return object
+    def get_top_songs_by_artist(self, artist):
+        info = self.lib_fm.read('artist.getTopTracks', artist = artist)
+        for track in info["toptracks"]["track"]:
+            print track
+            name = track["name"]
+            artist = track["artist"]
+            url = track["url"]
+
+            try:
+                image = track["image"]
+            except:
+                image = ""
+
+            print name
+            if len(image) > 0:
+                print image[0]["#text"]
+            print url
+            print artist
+
+    '''
+    根据artist得到对应的tags
+    INPUT:artist
+    ===
+    OUTPUT: tags [Usher, ..., ...]
+    '''
+    def get_tags_by_artist(self, artist):
+        info = self.lib_fm.read('artist.getTopTags', artist = artist)
+        tags = [tag["name"] for tag in info["toptags"]["tag"]]
+        return tags
+
+    # TODO(wei) change the result of function
+    def get_albums_by_artist(self, artist):
+        info = self.lib_fm.read('artist.getTopAlbums', artist = artist)
+        for album in info["topalbums"]["album"]:
+            name = album["name"]
+            artist = album["artist"]
+            url = album["url"]
+            image = album["image"]
+
+            print "artist: " + str(artist["name"])
+            print "album_name: " + str(name)
+            print "url: " + str(url)
+            print "image: " + str(image[-1]["#text"])
+            print "----"
+
+    # TODO(wei) get the songs of a album
+    def get_songs_by_album(self, artist, album):
+        info = self.lib_fm.read('album.getInfo', artist = artist, album = album)
+        for track in info["album"]["tracks"]["track"]:
+            #print track
+            name = track["name"]
+            artist = track["artist"]
+            url = track["url"]
+            #print track["@attr"]
+            #
+            print name
+            print artist["name"]
+            print url
+
+            print "---"
 
 
-    # # simple write
-    # lib_fm.write('artist.addTags', artist='Black Sabbath',
-    #              tags='metal, classic rock')
-except LibFMError, err:
-    print err
+if __name__ == "__main__":
+
+    r = redis.StrictRedis(host = "104.236.123.173")
+
+    try:
+        last_fm = LastFM(redis = r)
+
+    except LibFMError, err:
+        print err
