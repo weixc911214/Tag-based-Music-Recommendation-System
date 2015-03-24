@@ -81,6 +81,8 @@ class LastFM():
             print "image: " + str(image[-1]["#text"])
             print "----"
 
+        return list()
+
     # TODO(wei) get the songs of a album
     def get_songs_by_album(self, artist, album):
         info = self.lib_fm.read('album.getInfo', artist = artist, album = album)
@@ -96,14 +98,34 @@ class LastFM():
             print url
 
             print "---"
+        return list()
 
 
 if __name__ == "__main__":
 
     r = redis.StrictRedis(host = "104.236.123.173")
-
-    try:
-        last_fm = LastFM(redis = r)
-
-    except LibFMError, err:
-        print err
+    last_fm = LastFM(redis = r)
+    last_fm.get_songs_by_album("Usher", "Confessions")
+    # try:
+    #     artist = r.lpop("artist")
+    #
+    #     # get similar artists and put them into the redis list
+    #     artists_list = last_fm.get_similar_artists_by_artist(artist)
+    #     for art in artists_list:
+    #         r.lpush("artist", art)
+    #
+    #     # get the albums of artist
+    #
+    #     albums_list = last_fm.get_albums_by_artist(artist)
+    #     # get the tracks by albums
+    #     for album in albums_list:
+    #         # TODO update artist-album-relation
+    #         tracks = last_fm.get_songs_by_album(artist, album)
+    #
+    #
+    #         for track in tracks:
+    #             # TODO update track-artist-relation
+    #             pass
+    #
+    # except LibFMError, err:
+    #     print err
