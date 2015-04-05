@@ -46,7 +46,6 @@ app.get('/tosignup', function (req, res){
 	res.sendfile('signup.html', {root: './public/html/'});
 })
 
-
 app.post('/login', function (req, res){
   //check passwords
   var name = req.body.username;
@@ -64,14 +63,23 @@ app.post('/login', function (req, res){
 	          console.log("Wrong password");
 	          res.sendfile('index.html', {root: './public/html/'});
 	        }
-	        else 
-	          // if everything is OK, return null as the error
-	          // and the authenticated user
+	        else{ 
+	          // authenticated user
 	          console.log("Login Success")
             login_username = name
             login_userid = rows[0].user_id
-            console.log(login_userid)
-	          res.sendfile('homepage.html', {root: './public/html/'});
+            console.log(login_userid+": "+login_username);
+	          //res.sendfile('homepage.html', {root: './public/html/'});
+            musicdb.query('select * from playlists where user_id = ?',[login_userid],
+              function (err, rows, fields) {
+                if(err)
+                  console.log(err);
+                else{
+                    console.log(rows)
+                    res.render('pages/home', {list : rows, username : login_username});
+                }
+              });
+          }
 	    });
 
 	    console.log(query.sql);
@@ -79,7 +87,7 @@ app.post('/login', function (req, res){
 });
 
 // sign up new accounts
-
+// then direct to login page for login
 app.post('/signup', function (req, res){
   var name = req.body.username;
   var pwd = req.body.password;
@@ -112,7 +120,7 @@ app.post('/signup', function (req, res){
                   if(err)
                     console.log(err);
               });
-              res.sendFile('homepage.html', {root: './public/html/'});
+              res.sendFile('index.html', {root: './public/html/'});
             }
           });
         }
@@ -125,7 +133,16 @@ app.get('/homepage', function (req, res){
   if(!login_username.length) {
     res.redirect("/index.html");
   }
-	res.sendFile('homepage.html', {root: './public/html/'});
+	//res.sendFile('homepage.html', {root: './public/html/'});
+  musicdb.query('select * from playlists where user_id = ?',[login_userid],
+    function (err, rows, fields) {
+      if(err)
+        console.log(err);
+      else{
+          console.log(rows)
+          res.render('pages/home', {list : rows, username : login_username});
+      }
+    });
 });
 
 // logout, redirect to the origin index page
@@ -133,6 +150,8 @@ app.get('/logout', function (req, res){
   res.redirect("/index.html");
 });
 
+
+// Question: how to display playlist details according to its name?
 app.get('/playlists', function (req, res){
   if(!login_username.length) {
     res.redirect("/index.html");
