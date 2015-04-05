@@ -30,6 +30,10 @@ server.listen(process.env.PORT || 8081);
 app.use(express.static(__dirname + '/public/html'));
 app.use(bodyParser());
 
+var login_username = "";
+var login_userid = -1;
+
+
 //app routing methods
 app.get('/',function(req,res){
   res.sendFile('index.html');
@@ -40,11 +44,12 @@ app.get('/tosignup', function (req, res){
 	res.sendfile('signup.html', {root: './public/html/'});
 })
 
+
 app.post('/login', function (req, res){
   //check passwords
   var name = req.body.username;
   var pwd = req.body.password;
-  var user_col = ['user_name', 'user_pwd'];
+  var user_col = ['user_id','user_name', 'user_pwd'];
 	    var query = musicdb.query('select ?? from ?? where user_name = ?', [user_col, 'users', name], 
 	      function (err, rows, fields){
 	        if(err)
@@ -61,12 +66,18 @@ app.post('/login', function (req, res){
 	          // if everything is OK, return null as the error
 	          // and the authenticated user
 	          console.log("Login Success")
+            login_username = name
+            login_userid = rows[0].user_id
+            console.log(login_userid)
 	          res.sendfile('homepage.html', {root: './public/html/'});
 	    });
+
 	    console.log(query.sql);
 
 });
- 
+
+// sign up new accounts
+// 
 app.post('/signup', function (req, res){
   var name = req.body.username;
   var pwd = req.body.password;
@@ -107,13 +118,18 @@ app.post('/signup', function (req, res){
     console.log(query.sql);
 });
 
+// homepage, return to the homepage of the application
 app.get('/homepage', function (req, res){
 	res.sendFile('homepage.html', {root: './public/html/'});
 });
 
+// logout, redirect to the origin index page
 app.get('/logout', function (req, res){
   res.redirect("/index.html");
 });
 
+app.get('/playlists', function (req, res){
+  res.sendFile('homepage.html', {root: './public/html/'})
 
+});
 
