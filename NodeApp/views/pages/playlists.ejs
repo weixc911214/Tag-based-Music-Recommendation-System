@@ -1,0 +1,22 @@
+
+<html>
+<head>
+  <title>Your Music Home</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/cosmo/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/cosmo/bootstrap.min.css"></script>
+</head>
+<body style="background: black url(background.jpg) no-repeat fixed center center;">
+  <% include ../partials/navbar %>
+  <div class="row">
+      <div class="jumbotron" style="padding:30px; opacity: 0.9; margin:0px 100px auto 100px; overflow: scroll;">
+        <h2><%= username %>'s Playlists:</h2>
+        <ul>
+        <% list.forEach(function(l) { %>
+        <li><%= l.list_id %> - <%= l.list_name %></li>
+        <% }); %>
+      </ul>
+
+      </div>
+  </div>
+</body>

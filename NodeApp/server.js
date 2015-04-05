@@ -6,6 +6,8 @@ var express = require('express'),
     http = require('http'),
     server = http.createServer(app);
 
+app.set('view engine', 'ejs');
+
 var musicdb = new mysql.createConnection({
   host     : 'cs4111.cnjryr7wwjlv.us-west-2.rds.amazonaws.com',
   user     : 'xw2355xw2353',
@@ -77,7 +79,7 @@ app.post('/login', function (req, res){
 });
 
 // sign up new accounts
-// 
+
 app.post('/signup', function (req, res){
   var name = req.body.username;
   var pwd = req.body.password;
@@ -120,6 +122,9 @@ app.post('/signup', function (req, res){
 
 // homepage, return to the homepage of the application
 app.get('/homepage', function (req, res){
+  if(!login_username.length) {
+    res.redirect("/index.html");
+  }
 	res.sendFile('homepage.html', {root: './public/html/'});
 });
 
@@ -129,7 +134,27 @@ app.get('/logout', function (req, res){
 });
 
 app.get('/playlists', function (req, res){
-  res.sendFile('homepage.html', {root: './public/html/'})
+  if(!login_username.length) {
+    res.redirect("/index.html");
+  }
+
+  var list;
+  // get the playlists of login_user
+  var query = musicdb.query('select * from playlists where user_id = ?',[login_userid],
+    function (err, rows, fields) {
+      if(err)
+        console.log(err);
+      else
+      {
+        list = rows
+          console.log(login_username);
+          console.log(list)
+          res.render('pages/playlists', {list : list, username : login_username});
+        // console.log(rows[0].list_id);
+      }
+
+
+    });
 
 });
 
