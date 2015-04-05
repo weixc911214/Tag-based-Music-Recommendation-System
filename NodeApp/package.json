@@ -1,0 +1,14 @@
+{
+  "name": "MusicRecommendation",
+  "version": "0.0.1",
+  "author": "xw2355, xw2353",
+  "private": true,
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {
+    "express": "*",
+    "mysql": "*",
+    "body-parser": "*"
+  }
+}

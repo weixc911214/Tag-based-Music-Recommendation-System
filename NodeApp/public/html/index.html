@@ -1,0 +1,36 @@
+<html>
+<head>
+  <title>Music Recommendation</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/cosmo/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/cosmo/bootstrap.min.css"></script>
+</head>
+<body style="background: black url(background.jpg) no-repeat fixed center center;">
+  <div>
+      <div class="jumbotron"  style="padding:30px; opacity: 0.9; margin:200px 450px auto 450px; ">
+        <h1>W4111 Project 1</h1>
+        <h2>Xiaochen Wei & Xuejun Wang</h2>
+        <h4>A Personal Music Recommendation System For You</h4>
+          <form method="post" action="/login">
+              <div class = "row">
+                  <div class="col-md-6 col-md-offset-3">
+                    <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1" name="username" required>
+                  </div>
+              </div>
+              <div class = "row">
+                  <div class="col-md-6 col-md-offset-3">
+                     <input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon2" name="password" required>
+                  </div>
+              </div>  
+              <p></p> 
+              <div class="row"> 
+                  <div class="btn-group col-md-4 col-md-offset-4">
+                      <button class="btn btn-primary" type="submit">Login</button>
+                  </div>
+              </div>
+          </form>
+          <a href="/tosignup">Signup</a>
+      </div>
+  </div>
+</body>
+</html>
