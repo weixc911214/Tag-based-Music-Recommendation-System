@@ -7,8 +7,9 @@
     "start": "node app"
   },
   "dependencies": {
-    "express": "*",
-    "mysql": "*",
-    "body-parser": "*"
+    "ejs": "^2.3.1",
+    "body-parser": "*",
+    "express": "^4.12.3",
+    "mysql": "*"
   }
 }

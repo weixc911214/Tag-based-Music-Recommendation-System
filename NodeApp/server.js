@@ -12,6 +12,7 @@ var musicdb = new mysql.createConnection({
   password : 'musicrecommendation',
   database : 'cs4111'
 });
+
 //connect to specified database
 musicdb.connect(function(err){
   if(!err) {
@@ -108,6 +109,10 @@ app.post('/signup', function (req, res){
 
 app.get('/homepage', function (req, res){
 	res.sendFile('homepage.html', {root: './public/html/'});
+});
+
+app.get('/logout', function (req, res){
+  res.redirect("/index.html");
 });
 
 
