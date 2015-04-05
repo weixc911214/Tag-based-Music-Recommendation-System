@@ -106,7 +106,9 @@ app.post('/signup', function (req, res){
     console.log(query.sql);
 });
 
-
+app.get('/homepage', function (req, res){
+	res.sendFile('homepage.html', {root: './public/html/'});
+});
 
 
 
