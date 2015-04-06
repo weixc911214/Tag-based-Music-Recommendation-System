@@ -12,26 +12,28 @@
   <div class="row">
       <div class="jumbotron" style="padding:30px; opacity: 0.9; margin:60px 100px auto 100px; overflow: scroll;">
         <div class="col-md-2">
-          <p>Playlists<p>
+          <h3>Playlists<h3>
         </div>
-        <div class="col-md-8">
-        <form class="navbar-form navbar-left" role="search" method="post" action="/newlist">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Add New Playlist", name = "query">
-        </div style="width:auto;min-width:30px;">
-        <button type="submit" class="btn btn-success">Add New Playlist</button>
-      </form>
+        <div class="row">
+        <form class="form-group col-md-4 col-md-offset-4" method="post" action="/newlist">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Add New Playlist", name = "query">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="submit">Add New Playlist</button>
+            </span>
+          </div>
+        </form>
       </div >
-      <div class="col-md-12">
-        <ul>
-        <% list.forEach(function(l) { %>
-        <div  class="row">
-          <li><%= l.track_name %></li>
-        </div>
-
-
-        <% }); %>
-      </ul>
+      <div class="row">
+        <table class="table table-hover table-striped" style = "magin: 0px 100px 10px 100px; text-align: right;">
+            <tbody>
+              <% list.forEach(function(l) { %>
+                  <tr>
+                    <td><%= l.track_name %></td>
+                  </tr>
+              <% }); %>
+            </tbody>
+          </table>
       </div>
   </div>
 </body>
