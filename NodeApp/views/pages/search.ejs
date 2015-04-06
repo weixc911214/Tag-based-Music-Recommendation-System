@@ -10,15 +10,17 @@
 <body style="background: black url(background.jpg) no-repeat fixed center center;">
   <% include ../partials/navbar %>
   <div class="row">
-      	<div class="jumbotron" style="padding:30px; opacity: 0.9; margin:60px 100px auto 100px; overflow: scroll;">
-
-	          <p>Related Tracks<p>
-
-				<ul>
-	        	<% list.forEach(function(l) { %>
-	          		<li><%= l.track_name %></li>
-	        	<% }); %>
-	      		</ul>
+    <div class="jumbotron" style="padding:30px; opacity: 0.9; margin:60px 100px auto 100px; overflow: scroll;">
+        <h3>Related Tracks<h3>
+        <table class="table table-hover table-striped" style = "magin: 0px 100px 10px 100px; text-align: right;">
+          <tbody>
+            <% list.forEach(function(l) { %>
+                <tr>
+                  <td><%= l.track_name %></td>
+                </tr>
+            <% }); %>
+          </tbody>
+        </table>
 		</div>
   </div>
 </body>

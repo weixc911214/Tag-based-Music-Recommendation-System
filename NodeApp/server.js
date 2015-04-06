@@ -181,7 +181,7 @@ app.post('/search', function (req, res) {
   var search_query = req.body.query;
   // console.log(query)
 
-var query = musicdb.query('select songs.name as track_name from songs where songs.name like ?',[search_query],
+  var query = musicdb.query('select songs.name as track_name from songs where songs.name like ?',['%'+search_query+'%'],
     function (err, rows, fields) {
       if(err)
         console.log(err);
@@ -203,7 +203,7 @@ app.get('/playlist/*', function(req, res) {
   // get the list id
   var playlist_id = url[url.length - 1];
 
-var query = musicdb.query('select songs.name as track_name from songs, listed_songs where songs.track_id = listed_songs.track_id and list_id = ?',[playlist_id],
+  var query = musicdb.query('select songs.name as track_name from songs, listed_songs where songs.track_id = listed_songs.track_id and list_id = ?',[playlist_id],
     function (err, rows, fields) {
       if(err)
         console.log(err);
