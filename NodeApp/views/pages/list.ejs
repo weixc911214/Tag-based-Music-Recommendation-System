@@ -12,30 +12,21 @@
   <div class="row">
       <div class="jumbotron" style="padding:30px; opacity: 0.9; margin:60px 100px auto 100px; overflow: scroll;">
         <div class="col-md-2">
-          <p><%= username %>'s Playlists<p>
+          <p>Playlists<p>
         </div>
         <div class="col-md-8">
         <form class="navbar-form navbar-left" role="search" method="post" action="/newlist">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Add New Playlist", name = "query">
         </div style="width:auto;min-width:30px;">
-        <button type="submit" class="btn btn-success">Add New Playlist</button>
+        <button type="submit" class="btn btn-success">Add New Track</button>
       </form>
       </div >
-      <div class="row">
+      <div class="col-md-12">
         <ul>
         <% list.forEach(function(l) { %>
         <div  class="row">
-          <li>
-            <div class="col-md-4">
-              <a href= /playlist/<%= l.list_id %>><%= l.list_name %></a>
-            </div>
-            <div class="col-md-8">
-              <span>
-                <button type="submit">delete</button>
-              </span>
-            </div>
-          </li>
+          <li><%= l.track_name %></li>
         </div>
 
 

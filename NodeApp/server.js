@@ -68,21 +68,21 @@ app.post('/login', function (req, res){
 	          console.log("Login Success")
             login_username = name
             login_userid = rows[0].user_id
-            console.log(login_userid+": "+login_username);
+            // console.log(login_userid+": "+login_username);
 	          //res.sendfile('homepage.html', {root: './public/html/'});
             musicdb.query('select * from playlists where user_id = ?',[login_userid],
               function (err, rows, fields) {
                 if(err)
                   console.log(err);
                 else{
-                    console.log(rows)
+                    // console.log(rows)
                     res.render('pages/home', {list : rows, username : login_username});
                 }
               });
           }
 	    });
 
-	    console.log(query.sql);
+	    // console.log(query.sql);
 
 });
 
@@ -139,7 +139,7 @@ app.get('/homepage', function (req, res){
       if(err)
         console.log(err);
       else{
-          console.log(rows)
+          // console.log(rows)
           res.render('pages/home', {list : rows, username : login_username});
       }
     });
@@ -166,8 +166,8 @@ app.get('/playlists', function (req, res){
       else
       {
         list = rows
-          console.log(login_username);
-          console.log(list)
+          // console.log(login_username);
+          // console.log(list)
           res.render('pages/playlists', {list : list, username : login_username});
         // console.log(rows[0].list_id);
       }
@@ -177,3 +177,33 @@ app.get('/playlists', function (req, res){
 
 });
 
+app.post('/search', function (req, res) {
+  var search_query = req.body.query;
+  // console.log(query)
+
+  res.render('pages/search');
+
+});
+
+app.get('/playlist/*', function(req, res) {
+  var url = req.originalUrl.split("/");
+  // get the list id
+  var playlist_id = url[url.length - 1];
+
+var query = musicdb.query('select songs.name as track_name from songs, listed_songs where songs.track_id = listed_songs.track_id and list_id = ?',[playlist_id],
+    function (err, rows, fields) {
+      if(err)
+        console.log(err);
+      else
+      {
+        list = rows
+          // console.log(login_username);
+          console.log(list)
+          res.render('pages/list', {list : list, username : "Amy"});
+        // console.log(rows[0].list_id);
+      }
+
+
+    });
+
+});

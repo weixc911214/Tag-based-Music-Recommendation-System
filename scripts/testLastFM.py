@@ -58,28 +58,28 @@ def get_albums_by_artist(artist):
         artist = album["artist"]
         url = album["url"]
         image = album["image"]
-        
-        print "artist: " + str(artist["name"])
-        print "album_name: " + str(name)
-        print "url: " + str(url)
-        print "image: " + str(image[-1]["#text"])
-        print "----"
+        print album
+        #print "artist: " + str(artist["name"])
+        #print "album_name: " + str(name)
+        #print "url: " + str(url)
+        #print "image: " + str(image[-1]["#text"])
+        #print "----"
 
 
 def get_songs_by_album(artist, album):
     info = lib_fm.read('album.getInfo', artist = artist, album = album)
     for track in info["album"]["tracks"]["track"]:
-        #print track
+        print track
         name = track["name"]
         artist = track["artist"]
         url = track["url"]
         #print track["@attr"]
         #
-        print name
-        print artist["name"]
-        print url
+        #print name
+        #print artist["name"]
+        #print url
 
-        print "---"
+        #print "---"
 
 
 def get_tags_by_artist(artist):
