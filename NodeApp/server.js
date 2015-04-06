@@ -181,7 +181,20 @@ app.post('/search', function (req, res) {
   var search_query = req.body.query;
   // console.log(query)
 
-  res.render('pages/search');
+var query = musicdb.query('select songs.name as track_name from songs where songs.name like ?',[search_query],
+    function (err, rows, fields) {
+      if(err)
+        console.log(err);
+      else
+      {
+        list = rows
+          // console.log(login_username);
+        console.log(list)
+        res.render('pages/search', {list : list});
+      }
+
+
+    }); 
 
 });
 
