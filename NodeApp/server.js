@@ -75,6 +75,7 @@ app.post('/login', function (req, res){
               else
                 user_list = rows;
             });
+            // SQL query to be changed for recommendation
             musicdb.query('select * from songs where track_id < 100', function (err, songs, fields) {
                 if(err)
                   console.log(err);
@@ -91,7 +92,6 @@ app.post('/login', function (req, res){
           }
 	    });
 	    // console.log(query.sql);
-
 });
 
 // sign up new accounts
@@ -168,7 +168,7 @@ app.get('/logout', function (req, res){
 });
 
 
-// Question: how to display playlist details according to its name?
+// Question: how to display playlist details according to its name? -- SOLVED
 app.get('/playlists', function (req, res){
   if(!login_username.length) {
     res.redirect("/index.html");
@@ -205,8 +205,6 @@ app.post('/search', function (req, res) {
       else
       {
         list = rows
-          // console.log(login_username);
-        //console.log(list)
         res.render('pages/search', {list : list});
       }
     }); 
