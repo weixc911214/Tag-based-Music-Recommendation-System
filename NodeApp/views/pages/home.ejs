@@ -6,11 +6,51 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/cosmo/bootstrap.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/cosmo/bootstrap.min.css"></script>
+  <script>function toggle(){
+          if(document.getElementByID("like").style.color == "grey")
+            document.getElementByID("like").style.color = "red";
+          else
+            document.getElementByID("like").style.color = "grey";
+        }</script>
 </head>
 <body style="background: black url(background.jpg) no-repeat fixed center center;">
   <% include ../partials/navbar %>
   <div class="row">
       <div class="jumbotron" style="padding:30px; opacity: 0.9; margin:60px 100px auto 100px; overflow: scroll;">
+        <h2><%= username %>: You might be interested in ...<h2>
+        <h3>Recommend To You</h3>
+        <h3>Popular Songs</h3>
+        <table class="table table-hover table-striped" style = "magin: 0px 100px 10px 100px; text-align: center;">
+          <tbody>
+            <% songs.forEach(function(l) { %>
+                <tr>
+                  <td><%= l.name %></td>
+                  <td><audio controls="controls" class="audioTrack" preload="none"><source src="https://s3.amazonaws.com/wc-tracks/Weird_Canada-The_Cyrillic_Typewriter-Nowhere.ogg" type="audio/ogg; codecs=&quot;vorbis&quot;"><source src="https://s3.amazonaws.com/wc-tracks/Weird_Canada-The_Cyrillic_Typewriter-Nowhere.mp3" type="audio/mpeg; codecs=&quot;mp3&quot;"></audio></td>
+                  <td><span class="glyphicon glyphicon-heart" aria-hidden="false">Like</span></td>
+                  <td><div class = "dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Add To<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <% playlists.forEach(function(l) { %>
+                          <li><a href=/addtolist/<%= l.list_id %>><%= l.list_name %></a></li>
+                          <% }); %>
+                        </ul>
+                      </div>
+                  </td>
+                </tr>
+            <% }); %>
+          </tbody>
+        </table>
+
+        <h3>Popular Albums</h3>
+        <table class="table table-hover table-striped" style = "magin: 0px 100px 10px 100px; text-align: center;">
+          <tbody>
+            <% albums.forEach(function(l) { %>
+                <tr>
+                  <td><%= l.album_name %></td>
+                </tr>
+            <% }); %>
+          </tbody>
+        </table>
+
       </div>
   </div>
 </body>

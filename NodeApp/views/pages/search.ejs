@@ -16,7 +16,17 @@
           <tbody>
             <% list.forEach(function(l) { %>
                 <tr>
-                  <td><%= l.track_name %></td>
+                  <td><%= l.name %></td>
+                  <td><audio controls="controls" class="audioTrack" preload="none"><source src="https://s3.amazonaws.com/wc-tracks/Weird_Canada-The_Cyrillic_Typewriter-Nowhere.ogg" type="audio/ogg; codecs=&quot;vorbis&quot;"><source src="https://s3.amazonaws.com/wc-tracks/Weird_Canada-The_Cyrillic_Typewriter-Nowhere.mp3" type="audio/mpeg; codecs=&quot;mp3&quot;"></audio></td>
+                  <td><span class="glyphicon glyphicon-heart" aria-hidden="false">Like</span></td>
+                  <td><div class = "dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Add To<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <% playlists.forEach(function(l) { %>
+                          <li><a href=/addtolist/<%= l.list_id %>><%= l.list_name %></a></li>
+                          <% }); %>
+                        </ul>
+                      </div>
+                  </td>
                 </tr>
             <% }); %>
           </tbody>
