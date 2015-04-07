@@ -203,7 +203,7 @@ app.get('/playlist/*', function(req, res) {
   // get the list id
   var playlist_id = url[url.length - 1];
 
-  var query = musicdb.query('select songs.name as track_name from songs, listed_songs where songs.track_id = listed_songs.track_id and list_id = ?',[playlist_id],
+  var query = musicdb.query('select songs.name as track_name, songs.track_id as track_id from songs, listed_songs where songs.track_id = listed_songs.track_id and list_id = ?',[playlist_id],
     function (err, rows, fields) {
       if(err)
         console.log(err);
@@ -224,12 +224,13 @@ app.get('/playlist/*', function(req, res) {
 // add new playlist
 app.post('/newlist', function (req, res) {
   var list_name = req.body.query;
+
   musicdb.query('INSERT INTO playlists(user_id, list_name) values (?, ?)', [login_userid, list_name],
     function (err, result){
       if(err)
         console.log(err);
 
-      res.redirect('/playlists')
+      res.redirect('/playlists');
   
   });
 });
@@ -245,6 +246,21 @@ app.get('/removelist/*', function (req, res) {
         console.log(err);
 
       res.redirect('/playlists')
+  
+  });
+});
+
+app.get('/removetrack/*', function (req, res) {
+  var url = req.originalUrl.split("/");
+  var track_id = url[url.length - 1];
+  var redirect_url = req.headers.referer;
+
+  musicdb.query('DELETE FROM listed_songs WHERE track_id = ?', track_id,
+    function (err, result){
+      if(err)
+        console.log(err);
+
+      res.redirect(redirect_url);
   
   });
 });
