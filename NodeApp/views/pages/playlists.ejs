@@ -30,7 +30,7 @@
               <% list.forEach(function(l) { %>
                   <tr>
                     <td><a href= /playlist/<%= l.list_id %>><%= l.list_name %></a></td>
-                    <td><a href="#">Remove Playlist</a></td>
+                    <td><a href=/removelist/<%= l.list_id %>>Remove Playlist</a></td>
                   </tr>
               <% }); %>
             </tbody>

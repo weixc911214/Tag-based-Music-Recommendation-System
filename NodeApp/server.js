@@ -221,9 +221,25 @@ app.get('/playlist/*', function(req, res) {
 
 });
 
+// add new playlist
 app.post('/newlist', function (req, res) {
   var list_name = req.body.query;
   musicdb.query('INSERT INTO playlists(user_id, list_name) values (?, ?)', [login_userid, list_name],
+    function (err, result){
+      if(err)
+        console.log(err);
+
+      res.redirect('/playlists')
+  
+  });
+});
+
+// remove a playlist
+app.get('/removelist/*', function (req, res) {
+  var url = req.originalUrl.split("/");
+  var playlist_id = url[url.length - 1];
+
+  musicdb.query('DELETE FROM playlists WHERE list_id = ?', playlist_id,
     function (err, result){
       if(err)
         console.log(err);
