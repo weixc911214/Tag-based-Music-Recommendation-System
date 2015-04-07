@@ -220,3 +220,15 @@ app.get('/playlist/*', function(req, res) {
     });
 
 });
+
+app.post('/newlist', function (req, res) {
+  var list_name = req.body.query;
+  musicdb.query('INSERT INTO playlists(user_id, list_name) values (?, ?)', [login_userid, list_name],
+    function (err, result){
+      if(err)
+        console.log(err);
+
+      res.redirect('/playlists')
+  
+  });
+});
