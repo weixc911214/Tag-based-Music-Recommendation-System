@@ -205,7 +205,15 @@ app.post('/search', function (req, res) {
       else
       {
         list = rows
-        res.render('pages/search', {list : list});
+        musicdb.query('select * from playlists where user_id = ?',[login_userid], function (err, rows, fields) {
+          if(err)
+            console.log(err);
+          else {
+            playlists = rows;
+            res.render('pages/search', {list : list, playlists:playlists});
+          }
+            
+        });
       }
     }); 
 });
@@ -278,3 +286,17 @@ app.get('/removetrack/*', function (req, res) {
   });
 });
 
+app.get('/addtolist/*', function (req, res) {
+  var url = req.originalUrl.split("/");
+  var track_id = url[url.length - 1];
+  var list_id = url[url.length - 2];
+  var redirect_url = req.headers.referer;
+  musicdb.query('INSERT INTO listed_songs(track_id, list_id) VALUES(?, ?)', [track_id, list_id],
+    function (err, result){
+      if(err)
+        console.log(err);
+      else
+        res.redirect('/playlists');
+  
+  });
+});

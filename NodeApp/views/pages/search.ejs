@@ -10,7 +10,7 @@
 <body style="background: black url(background.jpg) no-repeat fixed center center;">
   <% include ../partials/navbar %>
   <div class="row">
-    <div class="jumbotron" style="padding:30px; opacity: 0.9; margin:60px 100px auto 100px; overflow: scroll;">
+    <div class="jumbotron" style="padding:30px; opacity: 0.9; margin:60px 100px auto 100px;">
         <h3>Related Tracks<h3>
         <table class="table table-hover table-striped" style = "magin: 0px 100px 10px 100px; text-align: right;">
           <tbody>
@@ -21,8 +21,8 @@
                   <td><span class="glyphicon glyphicon-heart" aria-hidden="false">Like</span></td>
                   <td><div class = "dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Add To<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                          <% playlists.forEach(function(l) { %>
-                          <li><a href=/addtolist/<%= l.list_id %>><%= l.list_name %></a></li>
+                          <% playlists.forEach(function(ele) { %>
+                          <li><a href=/addtolist/<%= ele.list_id %>/<%= l.track_id %>><%= ele.list_name %></a></li>
                           <% }); %>
                         </ul>
                       </div>
