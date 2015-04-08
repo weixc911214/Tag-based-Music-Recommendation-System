@@ -129,11 +129,11 @@ app.get('/homepage', function (req, res){
       function (err, user_liked, fields){
         if(err) console.log(err);
         else{
-          musicdb.query('select * from songs where track_id < 100', function (err, songs, fields) {
+          musicdb.query('select * from songs where popularity > 80 limit 10', function (err, songs, fields) {
               if(err)
                 console.log(err);
               else{
-                  musicdb.query('select * from albums where album_id < 110', function (err, albums, fields){
+                  musicdb.query('select * from albums where popularity > 80 limit 10', function (err, albums, fields){
                     if(err)
                       console.log(err);
                     else{

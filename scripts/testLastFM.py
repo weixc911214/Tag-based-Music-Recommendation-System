@@ -97,7 +97,14 @@ try:
 
     #info = lib_fm.read('artist.getInfo', artist='Usher')
     #get_songs_by_artist("Usher")
-    get_tags_by_artist("Taylor Swift")
+    info = lib_fm.read('track.getTopTags', artist = "Justin Bieber", track = "Heartbreaker")
+
+
+
+    info = lib_fm.read('album.getTopTags', artist = "Justin Bieber", album = "Journals") 
+    for i in info["toptags"]["tag"]:
+        print i["name"]
+    #get_tags_by_artist("Taylor Swift")
 
 
     # # simple write

@@ -4,7 +4,7 @@
         <tr>
           <td><%= l.name %></td>
           <td>
-            <audio controls="controls" class="audioTrack" preload="none"><source src="https://s3.amazonaws.com/wc-tracks/Weird_Canada-The_Cyrillic_Typewriter-Nowhere.ogg" type="audio/ogg; codecs=&quot;vorbis&quot;"><source src="https://s3.amazonaws.com/wc-tracks/Weird_Canada-The_Cyrillic_Typewriter-Nowhere.mp3" type="audio/mpeg; codecs=&quot;mp3&quot;"></audio>
+            <audio controls="controls" class="audioTrack" preload="none"><source src=<%= l.resource_url %> type="audio/ogg; codecs=&quot;vorbis&quot;"><source src="https://s3.amazonaws.com/wc-tracks/Weird_Canada-The_Cyrillic_Typewriter-Nowhere.mp3" type="audio/mpeg; codecs=&quot;mp3&quot;"></audio>
           </td>
           <td>
               <a href = /like/<%=l.track_id%>>
