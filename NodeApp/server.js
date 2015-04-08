@@ -32,10 +32,9 @@ server.listen(process.env.PORT || 8081);
 app.use(express.static(__dirname + '/public/html'));
 app.use(bodyParser());
 
+//global variables for individual user session
 var login_username = "";
 var login_userid = -1;
-var user_list = {};
-
 
 //app routing methods
 app.get('/',function(req,res){
@@ -66,32 +65,12 @@ app.post('/login', function (req, res){
 	        }
 	        else{ 
 	          // authenticated user
-	          console.log("Login Success")
-            login_username = name
-            login_userid = rows[0].user_id
-            musicdb.query('select * from playlists where user_id = ?',[login_userid], function (err, rows, fields) {
-              if(err)
-                console.log(err);
-              else
-                user_list = rows;
-            });
-            // SQL query to be changed for recommendation
-            musicdb.query('select * from songs where track_id < 100', function (err, songs, fields) {
-                if(err)
-                  console.log(err);
-                else{
-                    musicdb.query('select * from albums where album_id < 110', function (err, albums, fields){
-                      if(err)
-                        console.log(err);
-                      else{
-                        res.render('pages/home', {songs : songs, albums: albums, playlists: user_list, username : login_username});
-                      }
-                    });
-                }
-            });
+	          console.log("Login Success");
+            login_username = name;
+            login_userid = rows[0].user_id;
+            res.redirect('/homepage');
           }
 	    });
-	    // console.log(query.sql);
 });
 
 // sign up new accounts
@@ -137,29 +116,38 @@ app.post('/signup', function (req, res){
 });
 
 // homepage, return to the homepage of the application
+// set global json for individual user session
 app.get('/homepage', function (req, res){
   if(!login_username.length) {
     res.redirect("/index.html");
   }
-	musicdb.query('select * from playlists where user_id = ?',[login_userid], function (err, rows, fields) {
-    if(err)
-      console.log(err);
-    else
-      user_list = rows;
-  });
-  musicdb.query('select * from songs where track_id < 100', function (err, songs, fields) {
-      if(err)
-        console.log(err);
-      else{
-          musicdb.query('select * from albums where album_id < 110', function (err, albums, fields){
-            if(err)
-              console.log(err);
-            else{
-              res.render('pages/home', {songs: songs, albums: albums, playlists: user_list, username : login_username});
-            }
-          });
-      }
-  });
+	musicdb.query('select * from playlists where user_id = ?',[login_userid], function (err, user_list, fields) {
+    if(err) console.log(err);
+    else{
+      //console.log(user_list);
+      musicdb.query('select * from prefered_songs where user_id = ?', [login_userid], function (err, user_liked, fields){
+        if(err) console.log(err);
+        else{
+          // SQL query to be changed for recommendation
+          //console.log(user_liked);
+          musicdb.query('select * from songs where track_id < 100', function (err, songs, fields) {
+              if(err)
+                console.log(err);
+              else{
+                  musicdb.query('select * from albums where album_id < 110', function (err, albums, fields){
+                    if(err)
+                      console.log(err);
+                    else{
+                      var data = {songs: songs, albums: albums, playlists: user_list, likes: user_liked, username: login_username};
+                      res.render('pages/home', data);
+                    }
+                  });// end of album recommendation
+              }
+          });// end of song recommendation
+        }
+      });// end of user_liked query
+    }
+  });// end of user_list query 
 });//end of get homepage
 
 // logout, redirect to the origin index page
@@ -199,17 +187,15 @@ app.post('/search', function (req, res) {
   // console.log(query)
 
   var query = musicdb.query('select * from songs where songs.name like ?',['%'+search_query+'%'],
-    function (err, rows, fields) {
+    function (err, list, fields) {
       if(err)
         console.log(err);
       else
       {
-        list = rows
-        musicdb.query('select * from playlists where user_id = ?',[login_userid], function (err, rows, fields) {
+        musicdb.query('select * from playlists where user_id = ?',[login_userid], function (err, playlists, fields) {
           if(err)
             console.log(err);
           else {
-            playlists = rows;
             res.render('pages/search', {list : list, playlists:playlists});
           }
             
@@ -280,7 +266,6 @@ app.get('/removetrack/*', function (req, res) {
     function (err, result){
       if(err)
         console.log(err);
-
       res.redirect(redirect_url);
   
   });
@@ -299,4 +284,32 @@ app.get('/addtolist/*', function (req, res) {
         res.redirect('/playlists');
   
   });
+});
+
+app.get('/like/*', function (req, res) {
+  var url = req.originalUrl.split("/");
+  var ctrack_id = url[url.length - 1];
+  var redirect_url = req.headers.referer;
+  console.log("redirect_url"+redirect_url);
+  console.log("ctrack_id: "+ctrack_id);
+  musicdb.query('select * from prefered_songs where user_id = ?', [login_userid], function (err, likes, fields){
+    if(err) console.log(err);
+    else{
+      console.log(likes);
+      for(var i = 0; i<likes.length; i++){
+        if(ctrack_id == likes[i].track_id){
+          musicdb.query('delete from prefered_songs where track_id = ? and user_id = ?', [ctrack_id, login_userid], 
+            function (err, rows){
+              if(err)   console.log(err);
+              res.redirect(redirect_url);
+          });
+        }
+      }// end of for loop
+      musicdb.query('insert into prefered_songs set ?', {user_id: login_userid, track_id: ctrack_id}, 
+        function (err, rows){
+          if(err) console.log(err);
+          res.redirect(redirect_url);
+        });
+    }
+  }); // end of query likes
 });
