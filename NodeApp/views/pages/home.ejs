@@ -8,26 +8,25 @@
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/cosmo/bootstrap.min.css"></script>
   <style>
-    #toggle {
-        display: none;
-        position: absolute;
-        top: -100%;
-        left: -100%;
-        cursor: pointer;
+    .fa-heart-gray {
+      font-size: 1.5em !important;
+      color: gray !important;
     }
-    #pos {
-        display: none;
-    }
-    #toggle + label {
-        display: inline-block;
-    }
-    #toggle:checked + label i#neg {
-        display: none;
-    }
-    #toggle:checked + label i#pos {
-        display: block;
+    .fa-heart-red {
+      font-size: 1.5em !important;
+      color: red !important;
     }
   </style>
+  <script>
+      $(function (){
+        $("#songs tbody tr td a").click(function (event){
+            if($(this).find($(".fa")).hasClass('fa-heart-gray'))
+              $(this).find($(".fa")).removeClass('fa-heart-gray').addClass('fa-heart-red');
+            else if($(this).find($(".fa")).hasClass('fa-heart-red'))
+              $(this).find($(".fa")).removeClass('fa-heart-red').addClass('fa-heart-gray');          
+        });
+      });
+  </script>
 </head>
 <body style="background: black url(background.jpg) no-repeat fixed center center;">
   <% include ../partials/navbar %>
@@ -35,7 +34,7 @@
       <div class="jumbotron" style="padding:30px; opacity: 0.9; margin:60px 100px auto 100px; overflow: scroll;">
         <h2><%= username %>: You might be interested in ...<h2>
         <h3>Popular Songs</h3>
-        <table class="table table-hover table-striped" style = "magin: 0px 100px 10px 100px; text-align: center;">
+        <table id="songs" class="table table-hover table-striped" style = "magin: 0px 100px 10px 100px; text-align: center;">
           <tbody>
             <% songs.forEach(function(l) { %>
                 <tr>
@@ -44,13 +43,18 @@
                     <audio controls="controls" class="audioTrack" preload="none"><source src="https://s3.amazonaws.com/wc-tracks/Weird_Canada-The_Cyrillic_Typewriter-Nowhere.ogg" type="audio/ogg; codecs=&quot;vorbis&quot;"><source src="https://s3.amazonaws.com/wc-tracks/Weird_Canada-The_Cyrillic_Typewriter-Nowhere.mp3" type="audio/mpeg; codecs=&quot;mp3&quot;"></audio>
                   </td>
                   <td>
-                      <div href=/like/<%= l.track_id%>>
-                        <input type="checkbox" id="toggle">
-                        <label for="toggle">
-                          <i id="neg" class="fa fa-heart fa-x2" style="color: grey !important;"></i>
-                          <i id="pos" class="fa fa-heart fa-x2" style="color: red !important;"></i>
-                        </label>
-                      </div>
+                      <a href = /like/<%= l.track_id%>>
+                        <% var count = 0; 
+                          likes.forEach(function(i){
+                            if(i.track_id == l.track_id){ ++count;}
+                          });
+                          if(count >0) {%>
+                            <i class="fa fa-heart fa-heart-red fa-x2"></i>
+                          <% } else{ %>
+                            <i class="fa fa-heart fa-heart-gray fa-x2"></i>
+                          <% } %>
+                      </a>
+
                   </td>
                   <td><div class = "dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Add To<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">

@@ -125,11 +125,10 @@ app.get('/homepage', function (req, res){
     if(err) console.log(err);
     else{
       //console.log(user_list);
-      musicdb.query('select * from prefered_songs where user_id = ?', [login_userid], function (err, user_liked, fields){
+      musicdb.query('select track_id from prefered_songs where user_id = ?', [login_userid], 
+      function (err, user_liked, fields){
         if(err) console.log(err);
         else{
-          // SQL query to be changed for recommendation
-          //console.log(user_liked);
           musicdb.query('select * from songs where track_id < 100', function (err, songs, fields) {
               if(err)
                 console.log(err);
@@ -281,7 +280,7 @@ app.get('/addtolist/*', function (req, res) {
       if(err)
         console.log(err);
       else
-        res.redirect('/playlists');
+        res.redirect(redirect_url);
   
   });
 });
@@ -290,11 +289,11 @@ app.get('/like/*', function (req, res) {
   var url = req.originalUrl.split("/");
   var ctrack_id = url[url.length - 1];
   var redirect_url = req.headers.referer;
-  console.log("redirect_url"+redirect_url);
-  console.log("ctrack_id: "+ctrack_id);
-  musicdb.query('select * from prefered_songs where user_id = ?', [login_userid], function (err, likes, fields){
+  var likes = [];
+  musicdb.query('select * from prefered_songs where user_id = ?', [login_userid], function (err, rows, fields){
     if(err) console.log(err);
     else{
+      likes = rows;
       console.log(likes);
       for(var i = 0; i<likes.length; i++){
         if(ctrack_id == likes[i].track_id){
@@ -302,6 +301,7 @@ app.get('/like/*', function (req, res) {
             function (err, rows){
               if(err)   console.log(err);
               res.redirect(redirect_url);
+              console.log("reach deletion");
           });
         }
       }// end of for loop
@@ -309,6 +309,7 @@ app.get('/like/*', function (req, res) {
         function (err, rows){
           if(err) console.log(err);
           res.redirect(redirect_url);
+          console.log("reach insertion");
         });
     }
   }); // end of query likes
