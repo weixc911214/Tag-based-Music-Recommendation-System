@@ -126,20 +126,24 @@ def update_track(track, artist_id, album_id):
 	#print track.keys()
 	#print track.keys()
 	track_name = track["name"]
+
 	preview_url = track["preview_url"]
 	popularity = randint(0, 99)
 
-	insert_sql = "insert into songs(artist_id, album_id, resource_url, name, popularity) values (\"%s\", \"%s\", \"%s\", \"%s\", \"%s\")" %(artist_id, album_id, preview_url, track_name, popularity)
-	cursor.execute(insert_sql)
-	db.commit()
+	try:
+		insert_sql = "insert into songs(artist_id, album_id, resource_url, name, popularity) values (\"%s\", \"%s\", \"%s\", \"%s\", \"%s\")" %(artist_id, album_id, preview_url, track_name, popularity)
+		cursor.execute(insert_sql)
+		db.commit()
 
-	select_sql = "select * from songs where name like \"%s\"" %track_name
+		select_sql = "select * from songs where name like \"%s\"" %track_name
 
-	cursor.execute(select_sql)
+		cursor.execute(select_sql)
 
-	result = cursor.fetchall()
+		result = cursor.fetchall()
 
-	track_id = result[-1]["track_id"]
+		track_id = result[-1]["track_id"]
+	except:
+		pass
 
 	#print track_id
 
@@ -148,6 +152,17 @@ def update_tag(tags_list):
 		sql = "insert into tags(tag_name) values(\"%s\")" %tag
 		cursor.execute(sql)
 		db.commit()
+
+def update_album_tag():
+	for album_id in range(385, 663):
+		for i in range(0, 3):
+			tag_id = randint(16, 133)
+			try:
+				sql = "insert into tag_for_album(album_id, tag_id) values(\"%s\", \"%s\")" %(album_id, tag_id)
+				cursor.execute(sql)
+				db.commit()
+			except:
+				pass
 
 if __name__ == "__main__":
 	name = "Justin Bieber"
@@ -165,41 +180,48 @@ if __name__ == "__main__":
 
 
 
-	# print contents[1]
-	# #print artist_list
+	print contents[1]
+	#print artist_list
 
-	# for artist in contents[:50]:
+	for artist in contents[:50]:
+		try:
+			artist = json.loads(artist)
+			#get_tags(artist)
+			
+			# update artist info to databse
+			artist_id, artist_name = update_artist(artist)
 
-	# 	artist = json.loads(artist)
-	# 	#get_tags(artist)
+
+
+			uri = artist["uri"]
+
+			albums = get_albums_by_artist(uri)
+
+
+			for album in albums:
+
+				#print album
+				#update album info in databse
+				album_id = update_album(album, artist_id, artist_name)
+
+				tmp_id = album["id"]
+
+				tracks = spotify.album_tracks(tmp_id)
+
+				tracks = tracks["items"]
+				for track in tracks:
+					update_track(track, artist_id, album_id)
+					
+			print "Finish insert artist: %s" %artist_name
+		except:
+			pass
+
 		
-	# 	# update artist info to databse
-	# 	artist_id, artist_name = update_artist(artist)
-
-
-
-	# 	uri = artist["uri"]
-
-	# 	albums = get_albums_by_artist(url)
-
-	# 	for album in albums:
-
-	# 		# update album info in databse
-	# 		album_id = update_album(album, artist_id, artist_name)
-
-	# 		tmp_id = album["id"]
-
-	# 		tracks = spotify.album_tracks(tmp_id)
-
-	# 		tracks = tracks["items"]
-	# 		for track in tracks:
-	# 			update_track(track, artist_id, album_id)
-
-	# 	print "Finish insert artist: %s" %artist_name
 
 	# #Tell RQ what Redis connection to use
 	# update_tag(tags_list)
 	
-	update_track_tag()
+	#update_track_tag()
+	#update_album_tag()
 
 

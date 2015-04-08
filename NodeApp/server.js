@@ -129,7 +129,7 @@ app.get('/homepage', function (req, res){
       function (err, user_liked, fields){
         if(err) console.log(err);
         else{
-          musicdb.query('select * from songs where popularity > 80 limit 10', function (err, songs, fields) {
+          musicdb.query('select * from songs where popularity > 80 order by popularity limit 10', function (err, songs, fields) {
               if(err)
                 console.log(err);
               else{
@@ -185,7 +185,7 @@ app.post('/search', function (req, res) {
   var search_query = req.body.query;
   // console.log(query)
 
-  var query = musicdb.query('select * from songs where songs.name like ?',['%'+search_query+'%'],
+  var query = musicdb.query('select distinct(artist_id), name, resource_url from songs where songs.name like ?',['%'+search_query+'%'],
     function (err, list, fields) {
       if(err)
         console.log(err);
