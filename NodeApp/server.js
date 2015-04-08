@@ -295,22 +295,24 @@ app.get('/like/*', function (req, res) {
     else{
       likes = rows;
       console.log(likes);
-      for(var i = 0; i<likes.length; i++){
-        if(ctrack_id == likes[i].track_id){
-          musicdb.query('delete from prefered_songs where track_id = ? and user_id = ?', [ctrack_id, login_userid], 
-            function (err, rows){
-              if(err)   console.log(err);
-              res.redirect(redirect_url);
-              console.log("reach deletion");
-          });
-        }
-      }// end of for loop
-      musicdb.query('insert into prefered_songs set ?', {user_id: login_userid, track_id: ctrack_id}, 
-        function (err, rows){
-          if(err) console.log(err);
-          res.redirect(redirect_url);
-          console.log("reach insertion");
-        });
+      var count = 0;
+      for(var i = 0; i<likes.length; i++)
+        if(ctrack_id == likes[i].track_id) 
+          ++count;
+      if(count>0)
+      {musicdb.query('delete from prefered_songs where track_id = ? and user_id = ?', [ctrack_id, login_userid], 
+                  function (err, rows){
+                    if(err)   console.log(err);
+                    //res.redirect(redirect_url);
+                    console.log("reach deletion");
+                });}
+      else
+      {musicdb.query('insert into prefered_songs set ?', {user_id: login_userid, track_id: ctrack_id}, 
+              function (err, rows){
+                if(err) console.log(err);
+                //res.redirect(redirect_url);
+                console.log("reach insertion");
+              });}
     }
   }); // end of query likes
 });
