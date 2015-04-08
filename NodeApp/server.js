@@ -195,7 +195,10 @@ app.post('/search', function (req, res) {
           if(err)
             console.log(err);
           else {
-            res.render('pages/search', {list : list, playlists:playlists});
+            musicdb.query('select track_id from prefered_songs where user_id = ?', [login_userid], function (err, likes, fields){
+              if(err) console.log(err);
+              else res.render('pages/search', {songs : list, playlists:playlists, likes: likes});
+            });
           }
             
         });
@@ -303,14 +306,14 @@ app.get('/like/*', function (req, res) {
       {musicdb.query('delete from prefered_songs where track_id = ? and user_id = ?', [ctrack_id, login_userid], 
                   function (err, rows){
                     if(err)   console.log(err);
-                    //res.redirect(redirect_url);
+                    //res.redirect('back');
                     console.log("reach deletion");
                 });}
       else
       {musicdb.query('insert into prefered_songs set ?', {user_id: login_userid, track_id: ctrack_id}, 
               function (err, rows){
                 if(err) console.log(err);
-                //res.redirect(redirect_url);
+                //res.redirect('back');
                 console.log("reach insertion");
               });}
     }
