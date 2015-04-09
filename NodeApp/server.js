@@ -278,14 +278,20 @@ app.get('/addtolist/*', function (req, res) {
   var track_id = url[url.length - 1];
   var list_id = url[url.length - 2];
   var redirect_url = req.headers.referer;
-  musicdb.query('INSERT INTO listed_songs(track_id, list_id) VALUES(?, ?)', [track_id, list_id],
-    function (err, result){
-      if(err)
-        console.log(err);
-      else
-        res.redirect(redirect_url);
+  musicdb.query('select * from listed_songs where track_id = ? and list_id=?', [track_id, list_id], function (err, rows, fields){
+    if(err) console.log(err);
+    else if(!rows.length){
+      musicdb.query('INSERT INTO listed_songs(track_id, list_id) VALUES(?, ?)', [track_id, list_id],
+          function (err, result){
+            if(err)
+              console.log(err);
+            // else
+            //   res.redirect(redirect_url);
+        });
+    }
+    else console.log("Duplicated record: skipped!")
+  })
   
-  });
 });
 
 app.get('/like/*', function (req, res) {
