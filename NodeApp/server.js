@@ -285,14 +285,14 @@ app.get('/addtolist/*', function (req, res) {
           function (err, result){
             if(err)
               console.log(err);
-            // else
-            //   res.redirect(redirect_url);
+            else
+              // console.log()
+              res.redirect('/playlist/' + list_id);
         });
     }
     else console.log("Duplicated record: skipped!")
   })
-  
-});
+
 
 app.get('/like/*', function (req, res) {
   var url = req.originalUrl.split("/");
