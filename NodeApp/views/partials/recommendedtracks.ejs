@@ -1,0 +1,37 @@
+
+        <h2>Recommended Tracks<h2>
+
+<table id="songs" class="table table-hover table-striped" style = "magin: 0px 100px 10px 100px; text-align: center;">
+  <tbody>
+    <% recommendedtracks.forEach(function(l) { %>
+        <tr>
+          <td><%= l.name %></td>
+          <td>
+            <audio controls="controls" preload="none"><source src=<%= l.resource_url %> type="audio/ogg; codecs=&quot;vorbis&quot;"><source src="https://s3.amazonaws.com/wc-tracks/Weird_Canada-The_Cyrillic_Typewriter-Nowhere.mp3" type="audio/mpeg; codecs=&quot;mp3&quot;"></audio>
+          </td>
+          <td>
+              <a href = /like/<%=l.track_id%>>
+                <% var count = 0; 
+                  likes.forEach(function(i){
+                    if(i.track_id == l.track_id){ ++count;}
+                  });
+                  if(count >0) {%>
+                    <i class="fa fa-heart fa-heart-red fa-x2"></i>
+                  <% } else{ %>
+                    <i class="fa fa-heart fa-heart-gray fa-x2"></i>
+                  <% } %>
+              </a>
+          </td>
+          <td><div class = "dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Add<span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <% playlists.forEach(function(ele) { %>
+                  <li><a href=/addtolist/<%= ele.list_id %>/<%= l.track_id %>><%= ele.list_name %></a></li>
+                  <% }); %>
+                </ul>
+              </div>
+          </td>
+        </tr>
+    <% }); %>
+  </tbody>
+</table>
+

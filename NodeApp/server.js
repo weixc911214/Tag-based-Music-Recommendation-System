@@ -137,7 +137,7 @@ app.get('/homepage', function (req, res){
                     if(err)
                       console.log(err);
                     else{
-                      musicdb.query('select * from songs, tag_for_song where songs.track_id = tag_for_song.track_id and tag_for_song.tag_id in (select tag_id from tag_for_song, prefered_songs where tag_for_song.track_id = prefered_songs.track_id and user_id = ? ) order by popularity desc limit 12', login_userid, function (err, recommendedtracks, fields){
+                      musicdb.query('select * from songs, tag_for_song where songs.track_id = tag_for_song.track_id and tag_for_song.tag_id in (select tag_id from tag_for_song, prefered_songs where tag_for_song.track_id = prefered_songs.track_id and user_id = ? ) order by popularity desc limit 5', login_userid, function (err, recommendedtracks, fields){
                         if(err)
                           console.log(err);
                         else {
