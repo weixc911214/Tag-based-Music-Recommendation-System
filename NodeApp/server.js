@@ -142,7 +142,7 @@ app.get('/homepage', function (req, res){
                           console.log(err);
                         else {
                           // console.log(recommendedalbums);
-                            musicdb.query('select albums.popularity as popularity, image_url as image_url, album_name, artist_name, albums.redirect_url as redirect_url from albums,artists where albums.artist_id = artists.artist_id and albums.popularity > 80 order by albums.popularity desc limit 12', function (err, recommendedalbums, fields){
+                            musicdb.query('select * from albums, tag_for_album where albums.album_id = tag_for_album.album_id and tag_for_album.tag_id in (select tag_id from tag_for_song, prefered_songs where tag_for_song.track_id = prefered_songs.track_id and user_id = 11 ) group by albums.album_name order by popularity desc limit 12', function (err, recommendedalbums, fields){
                               if(err)
                                 console.log(err);
                               else {
