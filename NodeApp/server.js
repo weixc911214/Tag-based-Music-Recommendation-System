@@ -185,7 +185,7 @@ app.post('/search', function (req, res) {
   var search_query = req.body.query;
   // console.log(query)
 
-  var query = musicdb.query('select distinct(artist_id), name, resource_url from songs where songs.name like ?',['%'+search_query+'%'],
+  var query = musicdb.query('select * from songs where songs.name like ? group by artist_id',['%'+search_query+'%'],
     function (err, list, fields) {
       if(err)
         console.log(err);
