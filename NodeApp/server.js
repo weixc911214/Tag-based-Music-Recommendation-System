@@ -137,8 +137,22 @@ app.get('/homepage', function (req, res){
                     if(err)
                       console.log(err);
                     else{
-                      var data = {songs: songs, albums: albums, playlists: user_list, likes: user_liked, username: login_username};
-                      res.render('pages/home', data);
+                      musicdb.query('select * from songs, tag_for_song where songs.track_id = tag_for_song.track_id and tag_for_song.tag_id in (select tag_id from tag_for_song, prefered_songs where tag_for_song.track_id = prefered_songs.track_id and user_id = ? ) order by popularity desc limit 12', login_userid, function (err, recommendedtracks, fields){
+                        if(err)
+                          console.log(err);
+                        else {
+                          // console.log(recommendedalbums);
+                            musicdb.query('select albums.popularity as popularity, image_url as image_url, album_name, artist_name, albums.redirect_url as redirect_url from albums,artists where albums.artist_id = artists.artist_id and albums.popularity > 80 order by albums.popularity desc limit 12', function (err, recommendedalbums, fields){
+                              if(err)
+                                console.log(err);
+                              else {
+                                var data = {songs: songs, albums: albums, playlists: user_list, likes: user_liked, username: login_username, recommendedalbums: recommendedalbums, recommendedtracks: recommendedtracks};
+                                res.render('pages/home', data);
+                              }
+
+                            }); // end of tag-based album recommendation
+                        }
+                      }); // end of tag-based track recommendation
                     }
                   });// end of album recommendation
               }

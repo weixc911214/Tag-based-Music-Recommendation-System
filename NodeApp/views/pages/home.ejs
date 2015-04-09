@@ -8,9 +8,10 @@
   <% include ../partials/navbar %>
   <div class="row">
       <div class="jumbotron" style="padding:30px; opacity: 0.9; margin:60px 100px auto 100px; overflow: scroll;">
-        <div class="col-md-12">
-          <h2><%= username %>: You might be interested in ...<h2>
-        </div>
+
+        <h1><%= username %>: You might be interested in ...</h1>
+          <% include ../partials/recommendedalbums %>
+        
         <div class="col-md-8">
          <h3>Popular Songs</h3>
          <% include ../partials/songtable %>

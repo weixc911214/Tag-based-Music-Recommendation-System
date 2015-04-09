@@ -1,0 +1,53 @@
+
+        <h2>Recommended Albums<h2>
+
+        <div class="well">
+            <div id="myCarousel" class="carousel slide">
+                
+                <!-- Carousel items -->
+                <div class="carousel-inner">
+                        <% var count = 0; recommendedalbums.forEach(function(album){  %>
+                           <%  if(count == 0) {%>
+                                <div class="item active">
+                                    <div class="row">
+                            <% } else if(count % 4 == 0){%>
+                                <div class="item">
+                                    <div class="row">
+                            <% }%>
+                                        
+                                    <div class="col-sm-3"><a href=<%= album.redirect_url %> class="thumbnail"><img src=<%= album.image_url %> alt="Image" class="img-responsive"></a>
+                            </div>
+                            
+                            <% if(count % 4 == 3) {%>
+                                    </div>
+                                    <!--/row-->
+                                </div>
+                                <!--/item-->
+                            <% }%>
+                      <%  count++; }); %>
+
+                </div>
+                <!--/carousel-inner--> <a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
+
+                <a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>
+            </div>
+            <!--/myCarousel-->
+        </div>
+        <!--/well-->
+
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+    $('#myCarousel').carousel({
+    interval: 10000
+    })
+    
+    $('#myCarousel').on('slid.bs.carousel', function() {
+        //alert("slid");
+    });
+    
+    
+});
+
+</script>

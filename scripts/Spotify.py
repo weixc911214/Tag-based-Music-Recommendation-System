@@ -109,7 +109,7 @@ def update_album(album, artist_id, artist_name):
 
 def update_track_tag():
 
-	for track_id in range(3344, 7193):
+	for track_id in range(29431, 38572):
 		for i in range(0, 3):
 			tag_id = randint(16, 133)
 			try:
@@ -161,7 +161,7 @@ def update_tag(tags_list):
 		db.commit()
 
 def update_album_tag():
-	for album_id in range(385, 663):
+	for album_id in range(2307, 2962):
 		for i in range(0, 3):
 			tag_id = randint(16, 133)
 			try:
@@ -176,52 +176,52 @@ if __name__ == "__main__":
 
 	artist_list = list()
 
-	url = get_artist_id_by_name(name)
-	#print artist_id
-	artist_list.append(url)
-	artists = spotify.artist_related_artists(url)
+	# url = get_artist_id_by_name(name)
+	# #print artist_id
+	# artist_list.append(url)
+	# artists = spotify.artist_related_artists(url)
 
-	input_file = open("artists_list")
+	# input_file = open("artists_list")
 
-	contents = input_file.readlines()
+	# contents = input_file.readlines()
 
 
 
-	print contents[1]
-	#print artist_list
+	# print contents[1]
+	# #print artist_list
 
-	for artist in contents[:50]:
-		try:
-			artist = json.loads(artist)
-			#get_tags(artist)
+	# for artist in contents[:50]:
+	# 	try:
+	# 		artist = json.loads(artist)
+	# 		#get_tags(artist)
 			
-			# update artist info to databse
-			artist_id, artist_name = update_artist(artist)
+	# 		# update artist info to databse
+	# 		artist_id, artist_name = update_artist(artist)
 
 
 
-			uri = artist["uri"]
+	# 		uri = artist["uri"]
 
-			albums = get_albums_by_artist(uri)
+	# 		albums = get_albums_by_artist(uri)
 
 
-			for album in albums:
+	# 		for album in albums:
 
-				#print album
-				#update album info in databse
-				album_id = update_album(album, artist_id, artist_name)
+	# 			#print album
+	# 			#update album info in databse
+	# 			album_id = update_album(album, artist_id, artist_name)
 
-				tmp_id = album["id"]
+	# 			tmp_id = album["id"]
 
-				tracks = spotify.album_tracks(tmp_id)
+	# 			tracks = spotify.album_tracks(tmp_id)
 
-				tracks = tracks["items"]
-				for track in tracks:
-					update_track(track, artist_id, album_id)
+	# 			tracks = tracks["items"]
+	# 			for track in tracks:
+	# 				update_track(track, artist_id, album_id)
 
-			print "Finish insert artist: %s" %artist_name
-		except:
-			pass
+	# 		print "Finish insert artist: %s" %artist_name
+	# 	except:
+	# 		pass
 
 		
 
@@ -229,6 +229,6 @@ if __name__ == "__main__":
 	# update_tag(tags_list)
 	
 	#update_track_tag()
-	#update_album_tag()
+	update_album_tag()
 
 

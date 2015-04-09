@@ -14,14 +14,18 @@
        albums.forEach(function(l){
         if(count == 0) { %>
           <div class="item active">
-            <img src=<%= l.image_url %> alt="hahah">
+            <a href=<%= l.redirect_url %>>
+              <img src=<%= l.image_url %> alt="View it on Spotify">
+            </a>
             <div class="carousel-caption">
               <h3><%= l.album_name %></h3>
             </div>
           </div>
       <%  }  else {%>
           <div class="item">
-            <img src=<%= l.image_url %> alt="hahah">
+            <a href=<%= l.redirect_url %>>
+              <img src=<%= l.image_url %> alt="View it on Spotify">
+            </a>
             <div class="carousel-caption">
               <h3><%= l.album_name %></h3>
             </div>
