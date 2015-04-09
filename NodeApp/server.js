@@ -220,13 +220,10 @@ app.get('/playlist/*', function (req, res) {
         list = rows
           // console.log(login_username);
           console.log(list)
-          res.render('pages/list', {list : list, username : "Amy"});
+          res.render('pages/list', {list : list, username : login_username});
         // console.log(rows[0].list_id);
       }
-
-
     });
-
 });
 
 // add new playlist
@@ -290,8 +287,9 @@ app.get('/addtolist/*', function (req, res) {
               res.redirect('/playlist/' + list_id);
         });
     }
-    else console.log("Duplicated record: skipped!")
-  })
+    else console.log("Duplicated record: skipped!");
+  });
+});
 
 
 app.get('/like/*', function (req, res) {
