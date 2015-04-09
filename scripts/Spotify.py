@@ -51,8 +51,10 @@ def get_tags(artist):
 			tags_list.append(tag)
 
 def update_artist(artist):
-	
+	#print artist.keys()
 
+	redirect_url = artist["external_urls"]["spotify"]
+	#print redirect_url
 	name = artist["name"]
 	popularity = artist["popularity"]
 	image = ""
@@ -62,7 +64,7 @@ def update_artist(artist):
 		pass
 
 
-	insert_sql = "insert into artists(artist_name, artist_image, popularity) values (\"%s\", \"%s\", \"%s\")" %(name, image, popularity)
+	insert_sql = "insert into artists(artist_name, artist_image, popularity, redirect_url) values (\"%s\", \"%s\", \"%s\", \"%s\")" %(name, image, popularity, redirect_url)
 	cursor.execute(insert_sql)
 	db.commit()
 
@@ -76,7 +78,9 @@ def update_artist(artist):
 	# do the update
 
 def update_album(album, artist_id, artist_name):
+	#print album.keys()
 	#album_name = album["name"]
+	redirect_url = album["external_urls"]["spotify"]
 	album_name = album["name"]
 
 	image = ""
@@ -87,7 +91,7 @@ def update_album(album, artist_id, artist_name):
 
 	popularity = randint(0, 99)
 
-	insert_sql = "insert into albums(album_name, image_url, artist_id, popularity) values(\"%s\", \"%s\", \"%s\", \"%s\")" %(album_name, image, artist_id, popularity)
+	insert_sql = "insert into albums(album_name, image_url, artist_id, popularity, redirect_url) values(\"%s\", \"%s\", \"%s\", \"%s\", \"%s\")" %(album_name, image, artist_id, popularity, redirect_url)
 	cursor.execute(insert_sql)
 	db.commit()
 
@@ -125,13 +129,15 @@ def update_track_tag():
 def update_track(track, artist_id, album_id):
 	#print track.keys()
 	#print track.keys()
+	#print track.keys()
+	#
 	track_name = track["name"]
-
+	redirect_url = track["external_urls"]["spotify"]
 	preview_url = track["preview_url"]
 	popularity = randint(0, 99)
 
 	try:
-		insert_sql = "insert into songs(artist_id, album_id, resource_url, name, popularity) values (\"%s\", \"%s\", \"%s\", \"%s\", \"%s\")" %(artist_id, album_id, preview_url, track_name, popularity)
+		insert_sql = "insert into songs(artist_id, album_id, resource_url, name, popularity, redirect_url) values (\"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\")" %(artist_id, album_id, preview_url, track_name, popularity, redirect_url)
 		cursor.execute(insert_sql)
 		db.commit()
 
@@ -211,7 +217,7 @@ if __name__ == "__main__":
 				tracks = tracks["items"]
 				for track in tracks:
 					update_track(track, artist_id, album_id)
-					
+
 			print "Finish insert artist: %s" %artist_name
 		except:
 			pass

@@ -18,6 +18,7 @@
             <% albums.forEach(function(l) { %>
                 <tr>
                   <td><%= l.album_name %></td>
+                  <td><a href=<%= l.redirect_url %>>View it on Spotify</a></td>
                   <td>Popularity: <%= l.popularity %></td>
                   <td><img src=<%= l.image_url %> class="img-responsive" alt="Cinque Terre"></td>
                   <td><%= l.artist_name %></td>
