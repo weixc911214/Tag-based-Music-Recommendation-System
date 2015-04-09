@@ -282,9 +282,9 @@ app.get('/addtolist/*', function (req, res) {
           function (err, result){
             if(err)
               console.log(err);
-            else
-              // console.log()
-              res.redirect('/playlist/' + list_id);
+            // else
+            //   // console.log()
+            //   res.redirect('/playlist/' + list_id);
         });
     }
     else console.log("Duplicated record: skipped!");
