@@ -59,7 +59,7 @@ def update_artist(artist):
 	popularity = artist["popularity"]
 	image = ""
 	try:
-		image = artist["images"][-1]["url"]
+		image = artist["images"][0]["url"]
 	except:
 		pass
 
@@ -85,7 +85,8 @@ def update_album(album, artist_id, artist_name):
 
 	image = ""
 	try:
-		image = album["images"][-1]["url"]
+		image = album["images"][0]["url"]
+		#print album["images"]
 	except:
 		pass
 
