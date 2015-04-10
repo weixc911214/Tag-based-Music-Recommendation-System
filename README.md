@@ -1,4 +1,4 @@
-# DataBase Project: Music Recommender Part1 Proposal
+# Tag-based Music Recommendation System
 
 
 ### Authors
