@@ -1,14 +1,10 @@
-from rq import Queue
-from redis import Redis
 #from Count import count_words_at_url
-import time
-import spotipy
-from Queue import Queue
-import json
-from libfm import LibFM
-from libfm import LibFMError
-import pymysql as sql
 from random import randint
+
+import spotipy
+from libfm import LibFM
+import pymysql as sql
+
 spotify = spotipy.Spotify()
 lib_fm = LibFM('9b763a9a320e5719c1c9851fc7d71850', 'a10aa8e3f09af99b71d728953c6bd755')
 lib_fm.create_mobile_session('weixc1234', 'wxc16888')

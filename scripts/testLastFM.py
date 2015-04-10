@@ -1,6 +1,8 @@
+import json
+
 from libfm import LibFM
 from libfm import LibFMError
-import json
+
 # create a handler instance with API key and application secret
 lib_fm = LibFM('9b763a9a320e5719c1c9851fc7d71850', 'a10aa8e3f09af99b71d728953c6bd755')
 
