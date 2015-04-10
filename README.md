@@ -96,7 +96,7 @@ We plan the include the entities sets and relationship sets as following:
 5. **ProducedBy**: Relationship between (Artists, Albums) and (Artists, Songs).
 6. **Owns**: Relationship between Company and (Albums, Artists).
 
-![enter image description here](ER.png)
+![](http://weixc1234.qiniudn.com/music_database_create_v1.png)
 
 ### The Resources of data
 
