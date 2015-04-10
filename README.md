@@ -7,7 +7,7 @@
 
 **Xuejun Wang UNI:xw2355**
 
-### 0. Contents
+### Contents
 
 This is the project 1 for COMS W4111
 
@@ -32,7 +32,30 @@ Here are some screen shots of our web applications:
 ![](http://weixc1234.qiniudn.com/db-project-screenshot2.png)
 
 
-### 1. High-level Description Of The Application
+
+### How to run the code
+
+before running the code, you sholud install node.js and some packages listed as following:
+
+```
+   "dependencies": {
+    "ejs": "^2.3.1",
+    "body-parser": "*",
+    "express": "^4.12.3",
+    "mysql": "*"
+  }
+```
+After instalization, you could run the web application as following:
+
+```
+cd NodeApp
+
+node server.js
+
+```
+
+
+### High-level Description Of The Application
 
 For project 1, we plan to build a music recommender database based on the data on [Spotify](https://developer.spotify.com/web-api/) and [Rovi](http://developer.rovicorp.com/docs) API. To achieve this goal, we will include entities like users, artists, albums, tracks, playlists, and metadata like moods or genres. The relationship sets will also be built accordingly. 
 
@@ -49,7 +72,7 @@ A web application will be implemented in part 3 to incorporate the following fun
 #### Contingency Plan
 Should there be any unexpected condition regarding the team formation and contribution effort down-sizing, the recommendation application can be down-graded to an multi-criteria music search application.
 
-### 2. Entities Sets, Relationship Sets With Attributes And Constraints
+### Entities Sets, Relationship Sets With Attributes And Constraints
 
 The demo of the ER Map:
 
@@ -76,7 +99,7 @@ We plan the include the entities sets and relationship sets as following:
 
 ![enter image description here](ER.png)
 
-### 3. The Resources of data
+### The Resources of data
 
 For the dataset part, we want to make use the practical data in the real world instead of just generating random and worthless ones. We use the API from [Spotify](https://developer.spotify.com/web-api/) and [Rovi](http://developer.rovicorp.com/docs) to get the informations about artists, albums, tracks and metadata like moods and tags.
 
@@ -128,26 +151,5 @@ Here is a sample of the JSON-format data:
 }
 ```
 
-
-### 4. How to run the code
-
-before running the code, you sholud install node.js and some packages listed as following:
-
-```
-   "dependencies": {
-    "ejs": "^2.3.1",
-    "body-parser": "*",
-    "express": "^4.12.3",
-    "mysql": "*"
-  }
-```
-After instalization, you could run the web application as following:
-
-```
-cd NodeApp
-
-node server.js
-
-```
 
 
