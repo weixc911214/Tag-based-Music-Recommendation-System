@@ -10,6 +10,29 @@ The Contents are:
 
 Here are some screen shots of our web applications:
 
+### How to run the code
+
+before running the code, you sholud install node.js and some packages listed as following:
+
+```
+   "dependencies": {
+    "ejs": "^2.3.1",
+    "body-parser": "*",
+    "express": "^4.12.3",
+    "mysql": "*"
+  }
+```
+After instalization, you could run the web application as following:
+
+```
+cd NodeApp
+
+node server.js
+
+```
+
+### Screenshots
+
 **Login**
 
 ![](http://weixc1234.qiniudn.com/db-project-screenshot3.png)
