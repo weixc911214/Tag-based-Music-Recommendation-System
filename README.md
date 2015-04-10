@@ -3,9 +3,8 @@
 
 ### Authors
 
-**Xiaochen Wei UNI:xw2353**
-
-**Xuejun Wang UNI:xw2355**
+* [Xiaochen Wei](https://github.com/Sayary)
+* [Xuejun Wang](https://github.com/aiyyoi)
 
 ### Contents
 
